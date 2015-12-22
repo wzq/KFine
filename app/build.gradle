@@ -6,11 +6,13 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.firstlink.duo"
+        applicationId "com.firstlink.test"
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0"
+        versionName "1.1.4"
+        buildConfigField "String", "HOST", '"http://112.124.40.161/link-site/api/"'
+        buildConfigField "String", "HTML_HOST", '"http://dev.fine3q.com/link-site/"'
     }
     buildTypes {
         release {
@@ -31,4 +33,9 @@ dependencies {
     compile "com.android.support:cardview-v7:$SUPPORT_VERSION"
     compile "com.android.support:design:$SUPPORT_VERSION"
     compile "org.jetbrains.kotlin:kotlin-stdlib:$KOTLIN_VERSION"
+
+    compile 'com.google.code.gson:gson:2.4'
+    compile 'com.squareup.okio:okio:1.6.0'
+    compile 'com.squareup.okhttp:okhttp:2.7.0'
+
 }
