@@ -1,4 +1,4 @@
-package com.firstlink.duo.adapters
+package com.firstlink.duo.util
 
 import android.os.Handler
 import android.os.Looper
@@ -9,7 +9,7 @@ import java.io.IOException
 /**
  * Created by wzq on 15/12/22.
  */
-class OkHelper{
+class OkHelper {
 
     val handler : Handler
 
@@ -34,7 +34,7 @@ class OkHelper{
     }
 
     fun asyncPost(url: String, body: RequestBody) {
-        OkHttpClient().newCall(Request.Builder().url(BuildConfig.HOST.plus(url)).post(body).build()).enqueue(object : Callback{
+        OkHttpClient().newCall(Request.Builder().url(BuildConfig.HOST.plus(url)).post(body).build()).enqueue(object : Callback {
             override fun onResponse(response: Response?) {
                 val result = response?.body()?.string()
                 handler.post { updater(result) }

@@ -7,14 +7,11 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
-import android.widget.TextView
 import com.firstlink.duo.R
-import com.firstlink.duo.adapters.OkHelper
-import com.firstlink.duo.util.getCommonParams
+import com.firstlink.duo.fragments.HomeFragment
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    val s = "post/find_index_datas.json";
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,12 +28,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         val navigationView = findViewById(R.id.nav_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
 
-        val t = findViewById(R.id.main_t) as TextView
-        t.setOnClickListener({
-            OkHelper({ response ->
-                println(response)
-            }).asyncPost(s, getCommonParams(this@MainActivity).add("post_json", "{start_row:0,page_size:20}").build())
-        })
+        supportFragmentManager.beginTransaction().replace(R.id.main_container, HomeFragment()).commit()
     }
 
     override fun onBackPressed() {
