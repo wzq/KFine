@@ -9,10 +9,10 @@ android {
         applicationId "com.firstlink.test"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 1
+        versionCode 100016
         versionName "1.1.4"
-        buildConfigField "String", "HOST", '"http://112.124.40.161/link-site/api/"'
-        buildConfigField "String", "HTML_HOST", '"http://dev.fine3q.com/link-site/"'
+        buildConfigField "String", "HOST", '"http://api.fine3q.com/link-site/api/"'
+        buildConfigField "String", "HTML_HOST", '"http://api.fine3q.com/link-site/"'
     }
     buildTypes {
         release {
@@ -37,8 +37,9 @@ dependencies {
     compile 'com.google.code.gson:gson:2.4'
     compile 'com.squareup.okio:okio:1.6.0'
     compile 'com.squareup.okhttp:okhttp:2.7.0'
-    compile 'de.hdodenhof:circleimageview:1.3.0'
+//    compile 'de.hdodenhof:circleimageview:1.3.0'
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
     compile 'com.balysv:material-ripple:1.0.2'
+    compile 'com.squareup.picasso:picasso:2.5.2'
 
 }

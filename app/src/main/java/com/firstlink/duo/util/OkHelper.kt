@@ -34,9 +34,10 @@ class OkHelper {
     }
 
     fun asyncPost(url: String, body: RequestBody) {
-        OkHttpClient().newCall(Request.Builder().url(BuildConfig.HOST.plus(url)).post(body).build()).enqueue(object : Callback {
+        OkHttpClient().newCall(Request.Builder().url(url).post(body).build()).enqueue(object : Callback {
             override fun onResponse(response: Response?) {
                 val result = response?.body()?.string()
+                println(result) //todo
                 handler.post { updater(result) }
             }
 

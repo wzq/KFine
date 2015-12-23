@@ -16,6 +16,19 @@ val POST_JSON = "post_json"
 
 val DATA_JSON = "data_json"
 
+var DENSITY = 0
+
+fun formatPrice(f : Float) : String{
+    return "¥${(f/100.0).toString().format("%.2f")}"
+}
+
+fun handleByCDN(context: Context, url : String, w : Int, h : Int) : String{
+    if(DENSITY < 1){
+        DENSITY = (context.resources.displayMetrics.density+0.5).toInt()
+    }
+    return url.plus("@${w}w_${h}h_1e_1c_${DENSITY}x_1o")
+}
+
 fun getCommonParams(context: Context): FormEncodingBuilder {
     return FormEncodingBuilder()
             .add("d_id", UUID.randomUUID().toString())

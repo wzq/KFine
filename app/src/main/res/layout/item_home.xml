@@ -4,77 +4,102 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:cardBackgroundColor="@android:color/white"
-    app:cardPreventCornerOverlap="true"
     android:layout_marginLeft="8dp"
-    android:layout_marginRight="8dp">
+    android:layout_marginRight="8dp"
+    app:cardBackgroundColor="@android:color/white"
+    app:cardPreventCornerOverlap="true">
 
     <com.balysv.materialripple.MaterialRippleLayout
         android:id="@+id/ripple"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:mrl_rippleColor="@color/accent"
         app:mrl_rippleAlpha="0.1"
+        app:mrl_rippleColor="@color/accent"
         app:mrl_rippleFadeDuration="550"
         app:mrl_rippleHover="true">
 
-        <LinearLayout
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:paddingBottom="12dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="12dp">
+
 
             <ImageView
-                android:id="@+id/main_picture"
-                android:layout_width="match_parent"
+                android:id="@+id/home_pic"
+                android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:background="@android:color/white"
-                android:scaleType="centerCrop"
-                android:visibility="gone" />
+                android:layout_centerVertical="true"
+                android:layout_marginRight="24dp"
+                android:layout_marginEnd="24dp"
+                android:visibility="visible" />
 
-            <RelativeLayout
+            <TextView
+                android:id="@+id/home_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/home_pic"
+                android:layout_toRightOf="@+id/home_pic"
+                android:singleLine="true"
+                android:textColor="@color/primary_text"
+                android:textSize="16sp"
+                tools:text="Amazing Title" />
+
+            <TextView
+                android:id="@+id/home_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/home_title"
+                android:layout_alignStart="@+id/home_title"
+                android:layout_below="@+id/home_title"
+                android:layout_marginTop="8dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textColor="@color/secondary_text"
+                tools:text="As this is just a custom ImageView. Wow" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingBottom="16dp"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp"
-                android:paddingTop="16dp">
-
-
-                <ImageView
-                    android:id="@+id/main_head"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:layout_centerVertical="true"
-                    android:visibility="visible" />
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/home_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignStart="@+id/home_content"
+                android:orientation="horizontal"
+                android:gravity="bottom">
 
                 <TextView
-                    android:id="@+id/main_title"
+                    android:id="@+id/home_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginLeft="16dp"
-                    android:layout_toEndOf="@+id/main_head"
-                    android:layout_toRightOf="@+id/main_head"
-                    android:singleLine="true"
-                    android:text="Amazing Title"
-                    android:textColor="@color/primary_text"
-                    android:textSize="18sp" />
+                    android:textColor="@color/secondary_text"
+                    android:textSize="14sp"
+                    tools:text="$4.00" />
 
                 <TextView
-                    android:id="@+id/main_content"
+                    android:id="@+id/home_price_x"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/main_title"
-                    android:layout_alignStart="@+id/main_title"
-                    android:layout_below="@+id/main_title"
-                    android:layout_marginTop="5dp"
-                    android:singleLine="true"
-                    android:text="As this is just a custom ImageView."
-                    android:textColor="@color/secondary_text" />
+                    android:paddingLeft="10dp"
+                    android:textColor="@color/thirdly_text"
+                    android:textSize="12sp"
+                    tools:text="$4.00" />
 
-            </RelativeLayout>
+                <TextView
+                    android:id="@+id/home_source"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:paddingRight="6dp"
+                    android:textColor="@color/thirdly_text"
+                    android:textSize="10sp"
+                    tools:text="china" />
+            </LinearLayout>
+        </RelativeLayout>
 
-        </LinearLayout>
 
     </com.balysv.materialripple.MaterialRippleLayout>
 </android.support.v7.widget.CardView>
