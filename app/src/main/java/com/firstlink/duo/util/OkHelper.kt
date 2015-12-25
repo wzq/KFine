@@ -1,5 +1,6 @@
 package com.firstlink.duo.util
 
+import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import com.firstlink.duo.BuildConfig
@@ -10,6 +11,8 @@ import java.io.IOException
  * Created by wzq on 15/12/22.
  */
 class OkHelper {
+
+    val TAG = "OK_RESULT"
 
     val handler : Handler
 
@@ -33,18 +36,25 @@ class OkHelper {
         OkHttpClient().newCall(Request.Builder().url(BuildConfig.HOST.plus(url)).build()).enqueue(callback)
     }
 
-    fun asyncPost(url: String, body: RequestBody) {
-        OkHttpClient().newCall(Request.Builder().url(url).post(body).build()).enqueue(object : Callback {
-            override fun onResponse(response: Response?) {
-                val result = response?.body()?.string()
-                println(result) //todo
-                handler.post { updater(result) }
-            }
+    fun asyncPost(context: Context, hostSet : HostSet, vararg params : String) = OkHttpClient().newCall(initRequest(context, hostSet, params as List<String>)).enqueue(object : Callback {
+        override fun onResponse(response: Response?) {
+            val result = response?.body()?.string()
+            handler.post { updater(result) }
+        }
 
-            override fun onFailure(request: Request?, e: IOException?) {
-                handler.post { failure(request, e) }
-            }
+        override fun onFailure(request: Request?, e: IOException?) {
+            handler.post { failure(request, e) }
+        }
 
-        })
+    })
+
+    fun initRequest(context: Context, hostSet : HostSet, params : List<String>) : Request{
+       return Request.Builder().url(hostSet.keys[0]).post(fun (): RequestBody{
+           val c = getCommonParams(context);
+           for(s in hostSet.keys){
+           }
+           return c.build()
+       }()).build()
     }
+
 }

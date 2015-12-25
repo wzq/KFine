@@ -24,13 +24,15 @@ import com.squareup.picasso.Picasso
  * Created by wzq on 15/12/10.
  */
 
-val TYPE_NORMAL = 0
-
 class HomeAdapter(context : Context, data: List<Any>?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val data = data
     val context = context as BaseActivity
     var lastPosition = -1
+
+    companion object{
+        val TYPE_NORMAL = 0
+    }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         val item = data?.get(position)
@@ -39,13 +41,13 @@ class HomeAdapter(context : Context, data: List<Any>?) : RecyclerView.Adapter<Re
                 if(item is Goods){
                     Picasso.with(context).load(handleByCDN(context, item.indexPic, 200, 200)).into(holder.picture)
                     holder.title.text = item.title
-                    holder.content.text = item.description.replace("\\r|\\n", "")
+                    holder.content.text = item.description
                     holder.price.text = formatPrice(item.price.toFloat())
                     holder.priceX.text = formatPrice(item.refer_price.toFloat())
                     holder.source.text = item.source
                     holder.ripple.setOnClickListener({
                         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(context, holder.picture, "image");
-                        ActivityCompat.startActivity(context, IntentFor<DetailActivity>(context).putExtra("image", item.indexPic), options.toBundle());
+                        ActivityCompat.startActivity(context, IntentFor<DetailActivity>(context).putExtra("id", item.id).putExtra("uid", item.user_id), options.toBundle());
                     })
                 }
 

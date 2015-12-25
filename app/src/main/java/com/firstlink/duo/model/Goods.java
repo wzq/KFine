@@ -212,7 +212,7 @@ public class Goods {
     }
 
     public String getDescription() {
-        return description;
+        return description.replaceAll("\\r|\\n", "");
     }
 
     public int getUser_id() {

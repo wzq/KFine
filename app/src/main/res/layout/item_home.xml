@@ -59,7 +59,7 @@
                 android:layout_marginTop="8dp"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:textColor="@color/secondary_text"
+                android:textColor="@color/thirdly_text"
                 tools:text="As this is just a custom ImageView. Wow" />
 
             <LinearLayout
@@ -69,6 +69,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignStart="@+id/home_content"
                 android:orientation="horizontal"
+                android:paddingBottom="8dp"
                 android:gravity="bottom">
 
                 <TextView

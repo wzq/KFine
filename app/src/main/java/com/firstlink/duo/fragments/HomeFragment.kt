@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.firstlink.duo.R
 import com.firstlink.duo.adapters.HomeAdapter
-import com.firstlink.duo.adapters.TYPE_NORMAL
 import com.firstlink.duo.util.*
 import com.firstlink.duo.vo.HomeListData
 import com.google.gson.Gson
@@ -29,8 +28,8 @@ class HomeFragment : Fragment() {
         val root = inflater?.inflate(R.layout.fragment_home, container, false)
         recycler = root?.findViewById(R.id.home_recycler) as RecyclerView
         recycler.layoutManager = LinearLayoutManager(activity)
-        recycler.addItemDecoration(VerticalItemDecoration.Builder(activity).first(R.drawable.div_home_list).type(TYPE_NORMAL, R.drawable.div_home_list).last(R.drawable.div_home_list).create())
-        OkHelper(updater).asyncPost(HostSet.FIND_HOME_DATA.host, getCommonParams(activity).add(POST_JSON, "{start_row:0,page_size:20}").build())
+        recycler.addItemDecoration(VerticalItemDecoration.Builder(activity).first(R.drawable.div_home_list).type(HomeAdapter.TYPE_NORMAL, R.drawable.div_home_list).last(R.drawable.div_home_list).create())
+        OkHelper(updater).asyncPost(HostSet.FIND_HOME_DATA, getCommonParams(activity).add(POST_JSON, "{start_row:0,page_size:20}").build())
         return root
     }
 
