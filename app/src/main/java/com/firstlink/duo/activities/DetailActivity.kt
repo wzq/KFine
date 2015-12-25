@@ -8,8 +8,6 @@ import android.widget.ImageView
 import com.firstlink.duo.R
 import com.firstlink.duo.util.HostSet
 import com.firstlink.duo.util.OkHelper
-import com.firstlink.duo.util.POST_JSON
-import com.firstlink.duo.util.getCommonParams
 import com.firstlink.duo.vo.DetailData
 import com.google.gson.Gson
 import org.json.JSONObject
@@ -28,8 +26,7 @@ class DetailActivity : BaseActivity() {
         val img = findViewById(R.id.test_img) as ImageView
         ViewCompat.setTransitionName(img, "image")
 
-        val params = getCommonParams(this).add(POST_JSON, "{id:${intent.getIntExtra("id", 0)},user_id:${intent.getIntExtra("uid", 0)}}")
-        OkHelper(updater).asyncPost(HostSet.FIND_GOODS_DETAIL, params.build())
+        OkHelper(updater).asyncPost(this, HostSet.FIND_GOODS_DETAIL, "{id:${intent.getIntExtra("id", 0)},user_id:${intent.getIntExtra("uid", 0)}}")
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -40,7 +37,7 @@ class DetailActivity : BaseActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    val updater = fun (response : String?) : Unit{
+    val updater = fun (hostSet : HostSet, response : String?) : Unit{
         val result = Gson().fromJson(JSONObject(response).getJSONObject("data").toString(), DetailData::class.java)
     }
 }

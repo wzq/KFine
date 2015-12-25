@@ -7,6 +7,8 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Goods {
 
+    private int displayType;
+
     @SerializedName("first_pic")
     private String first_pic;
 
@@ -225,5 +227,13 @@ public class Goods {
 
     public Integer getStock() {
         return stock;
+    }
+
+    public int getDisplayType() {
+        return displayType;
+    }
+
+    public void setDisplayType(int displayType) {
+        this.displayType = displayType;
     }
 }

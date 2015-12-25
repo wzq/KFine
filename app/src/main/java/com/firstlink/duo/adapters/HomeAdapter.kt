@@ -16,6 +16,7 @@ import com.firstlink.duo.activities.BaseActivity
 import com.firstlink.duo.activities.DetailActivity
 import com.firstlink.duo.model.Goods
 import com.firstlink.duo.util.IntentFor
+import com.firstlink.duo.util.dp2px
 import com.firstlink.duo.util.formatPrice
 import com.firstlink.duo.util.handleByCDN
 import com.squareup.picasso.Picasso
@@ -24,21 +25,22 @@ import com.squareup.picasso.Picasso
  * Created by wzq on 15/12/10.
  */
 
-class HomeAdapter(context : Context, data: List<Any>?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class HomeAdapter(context: Context, data: List<Any>?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val data = data
     val context = context as BaseActivity
     var lastPosition = -1
 
-    companion object{
+    companion object {
         val TYPE_NORMAL = 0
+        val TYPE_TOPIC = 1
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         val item = data?.get(position)
         when (holder) {
             is NormalViewHolder -> {
-                if(item is Goods){
+                if (item is Goods) {
                     Picasso.with(context).load(handleByCDN(context, item.indexPic, 200, 200)).into(holder.picture)
                     holder.title.text = item.title
                     holder.content.text = item.description
@@ -52,6 +54,11 @@ class HomeAdapter(context : Context, data: List<Any>?) : RecyclerView.Adapter<Re
                 }
 
             }
+            is TopicViewHolder -> {
+                if (item is Goods) {
+                    Picasso.with(context).load(handleByCDN(context, item.picUrl, 700, 340)).into(holder.picture)
+                }
+            }
 
         }
     }
@@ -61,32 +68,17 @@ class HomeAdapter(context : Context, data: List<Any>?) : RecyclerView.Adapter<Re
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder? {
-        return NormalViewHolder(LayoutInflater.from(parent?.context).inflate(R.layout.item_home, parent, false));
-    }
-
-    class NormalViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val picture : ImageView
-        val title : TextView
-        val content : TextView
-        val price : TextView
-        val priceX : TextView
-        val source : TextView
-        val ripple : View
-        init {
-            ripple = itemView.findViewById(R.id.ripple)
-            picture = itemView.findViewById(R.id.home_pic) as ImageView
-            title = itemView.findViewById(R.id.home_title) as TextView
-            content = itemView.findViewById(R.id.home_content) as TextView
-            price = itemView.findViewById(R.id.home_price) as TextView
-            priceX = itemView.findViewById(R.id.home_price_x) as TextView
-            priceX.paint.flags = Paint.STRIKE_THRU_TEXT_FLAG
-            priceX.paint.isAntiAlias = true
-            source = itemView.findViewById(R.id.home_source) as TextView
+        when (viewType) {
+            TYPE_NORMAL -> return NormalViewHolder(LayoutInflater.from(parent?.context).inflate(R.layout.item_home, parent, false))
+            TYPE_TOPIC -> return TopicViewHolder(LayoutInflater.from(parent?.context).inflate(R.layout.item_home_topic, parent, false))
+            else -> return null
         }
+
     }
 
     override fun getItemViewType(position: Int): Int {
-        return TYPE_NORMAL
+        val temp = data?.get(position);
+        if(temp is Goods) return temp.displayType else return -1
     }
 
 
@@ -111,4 +103,37 @@ class HomeAdapter(context : Context, data: List<Any>?) : RecyclerView.Adapter<Re
         }
     }
 
+    inner class NormalViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val picture: ImageView
+        val title: TextView
+        val content: TextView
+        val price: TextView
+        val priceX: TextView
+        val source: TextView
+        val ripple: View
+
+        init {
+            ripple = itemView.findViewById(R.id.ripple)
+            picture = itemView.findViewById(R.id.home_pic) as ImageView
+            title = itemView.findViewById(R.id.home_title) as TextView
+            content = itemView.findViewById(R.id.home_content) as TextView
+            price = itemView.findViewById(R.id.home_price) as TextView
+            priceX = itemView.findViewById(R.id.home_price_x) as TextView
+            priceX.paint.flags = Paint.STRIKE_THRU_TEXT_FLAG
+            priceX.paint.isAntiAlias = true
+            source = itemView.findViewById(R.id.home_source) as TextView
+        }
+    }
+
+    inner class TopicViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val picture: ImageView
+
+        init {
+            picture = itemView.findViewById(R.id.topic_pic) as ImageView
+            val p = picture.layoutParams
+            p.width = context.resources.displayMetrics.widthPixels - dp2px(context, 16)
+            p.height = p.width * 34 / 70
+            picture.layoutParams = p
+        }
+    }
 }

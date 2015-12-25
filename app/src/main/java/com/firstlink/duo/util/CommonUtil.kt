@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
+import android.util.TypedValue
 import com.firstlink.duo.BuildConfig
 import com.squareup.okhttp.FormEncodingBuilder
 import java.util.*
@@ -17,6 +18,10 @@ val POST_JSON = "post_json"
 val DATA_JSON = "data_json"
 
 var DENSITY = 0
+
+fun dp2px(context: Context, dp: Int) : Int{
+    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), context.resources.displayMetrics).toInt()
+}
 
 fun formatPrice(f : Float) : String{
     return "¥${(f/100.0).toString().format("%.2f")}"
