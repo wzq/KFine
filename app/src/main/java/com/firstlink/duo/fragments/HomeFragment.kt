@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.firstlink.duo.R
 import com.firstlink.duo.adapters.HomeAdapter
+import com.firstlink.duo.model.Goods
 import com.firstlink.duo.util.HostSet
 import com.firstlink.duo.util.OkHelper
 import com.firstlink.duo.util.VerticalItemDecoration
@@ -36,7 +37,7 @@ class HomeFragment : Fragment() {
         root.setOnRefreshListener { runDelayed(1500, {root.isRefreshing = false}) }
         recycler = root.findViewById(R.id.home_recycler) as RecyclerView
         recycler.layoutManager = LinearLayoutManager(activity)
-        recycler.addItemDecoration(VerticalItemDecoration.Builder(activity).first(R.drawable.div_home_list)
+        recycler.addItemDecoration(VerticalItemDecoration.Builder(activity)
                 .type(HomeAdapter.TYPE_NORMAL, R.drawable.div_home_list)
                 .type(HomeAdapter.TYPE_TOPIC, R.drawable.div_home_list)
                 .last(R.drawable.div_home_list).create())
@@ -50,6 +51,7 @@ class HomeFragment : Fragment() {
         result.topicList.map { goods -> goods.displayType = HomeAdapter.TYPE_TOPIC }
         result.list.map { goods -> goods.displayType = HomeAdapter.TYPE_NORMAL }
         var data = arrayListOf<Any>()
+        data.add(fun (): Goods{ val temp = Goods(); temp.displayType=HomeAdapter.TYPE_NATION; return temp }())
         data.addAll(result.topicList)
         data.addAll(result.list)
         adapter = HomeAdapter(activity, data)
