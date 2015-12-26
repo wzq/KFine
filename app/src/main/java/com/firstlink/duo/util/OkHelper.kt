@@ -3,7 +3,6 @@ package com.firstlink.duo.util
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
-import com.firstlink.duo.BuildConfig
 import com.squareup.okhttp.*
 import java.io.IOException
 
@@ -16,31 +15,27 @@ class OkHelper {
 
     val handler : Handler
 
-    val updater : (hostSet : HostSet, response: String?) -> Unit
+    val updater : (hostSet : UrlSet, response: String?) -> Unit
 
     val failure : (request: Request?, e: IOException?) -> Unit
 
-    constructor(updater: (hostSet : HostSet, response: String?) -> Unit){
+    constructor(updater: (urlSet : UrlSet, response: String?) -> Unit){
         handler = Handler(Looper.getMainLooper())
         this.updater = updater
         this.failure = { r, e -> Unit }
     }
 
-    constructor(updater: (hostSet : HostSet, response: String?) -> Unit, failure: (request: Request?, e: IOException?) -> Unit){
+    constructor(updater: (urlSet : UrlSet, response: String?) -> Unit, failure: (request: Request?, e: IOException?) -> Unit){
         handler = Handler(Looper.getMainLooper())
         this.updater = updater
         this.failure = failure
     }
 
-    fun asyncGet(url: String, callback: Callback) {
-        OkHttpClient().newCall(Request.Builder().url(BuildConfig.HOST.plus(url)).build()).enqueue(callback)
-    }
-
-    fun asyncPost(context: Context, hostSet : HostSet, params : String) {
-        OkHttpClient().newCall(initRequest(context, hostSet, params)).enqueue(object : Callback {
+    fun asyncPost(context: Context, urlSet : UrlSet, params : String) {
+        OkHttpClient().newCall(initRequest(context, urlSet, params)).enqueue(object : Callback {
             override fun onResponse(response: Response?) {
                 val result = response?.body()?.string()
-                handler.post { updater(hostSet, result) }
+                handler.post { updater(urlSet, result) }
             }
 
             override fun onFailure(request: Request?, e: IOException?) {
@@ -50,11 +45,11 @@ class OkHelper {
         })
     }
 
-    fun initRequest(context: Context, hostSet : HostSet, params : String) : Request{
-       return Request.Builder().url(hostSet.url).post(fun (): RequestBody{
-           val c = getCommonParams(context);
-           if (hostSet.key!=null) {
-               c.add(hostSet.key, params)
+    fun initRequest(context: Context, urlSet : UrlSet, params : String) : Request{
+       return Request.Builder().url(urlSet.url).post(fun (): RequestBody{
+           val c = Tools.getCommonParams(context);
+           if (urlSet.key!=null) {
+               c.add(urlSet.key, params)
            }
            return c.build()
        }()).build()

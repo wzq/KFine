@@ -6,12 +6,10 @@ import com.firstlink.duo.BuildConfig
 /**
  * Created by wzq on 15/5/4.
  */
-enum class HostSet (vararg s: String) {
+enum class UrlSet(vararg s: String) {
 
-    INIT_CONFIG("initconf.json"),
-    LOGIN("user/login.json"),
-    FIND_HOME_DATA("post/find_index_datas.json", POST_JSON),
-    FIND_GOODS_DETAIL("post/get_groupon_detail.json", POST_JSON);
+    FIND_HOME_DATA("post/find_index_datas.json", Tools.POST_JSON),
+    FIND_GOODS_DETAIL("post/get_groupon_detail.json", Tools.POST_JSON);
 
     val url: String
 

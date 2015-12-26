@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="12dp"
-                android:text="🇯🇵   日本馆"
+                android:text="Japan"
                 android:textColor="@color/secondary_text"
                 android:textSize="16dp" />
         </com.balysv.materialripple.MaterialRippleLayout>
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="12dp"
-                android:text="🇺🇸   美国馆"
+                android:text="America"
                 android:textColor="@color/secondary_text"
                 android:textSize="16dp" />
         </com.balysv.materialripple.MaterialRippleLayout>

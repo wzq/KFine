@@ -1,6 +1,7 @@
 package com.firstlink.duo.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Paint
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.ActivityOptionsCompat
@@ -15,10 +16,7 @@ import com.firstlink.duo.R
 import com.firstlink.duo.activities.BaseActivity
 import com.firstlink.duo.activities.DetailActivity
 import com.firstlink.duo.model.Goods
-import com.firstlink.duo.util.IntentFor
-import com.firstlink.duo.util.dp2px
-import com.firstlink.duo.util.formatPrice
-import com.firstlink.duo.util.handleByCDN
+import com.firstlink.duo.util.Tools
 import com.squareup.picasso.Picasso
 
 /**
@@ -42,22 +40,22 @@ class HomeAdapter(context: Context, data: List<Any>?) : RecyclerView.Adapter<Rec
         when (holder) {
             is NormalViewHolder -> {
                 if (item is Goods) {
-                    Picasso.with(context).load(handleByCDN(context, item.indexPic, 200, 200)).into(holder.picture)
+                    Picasso.with(context).load(Tools.handleByCDN(context, item.indexPic, 200, 200)).into(holder.picture)
                     holder.title.text = item.title
                     holder.content.text = item.description
-                    holder.price.text = formatPrice(item.price.toFloat())
-                    holder.priceX.text = formatPrice(item.refer_price.toFloat())
+                    holder.price.text = Tools.formatPrice(item.price.toFloat())
+                    holder.priceX.text = Tools.formatPrice(item.refer_price.toFloat())
                     holder.source.text = item.source
                     holder.ripple.setOnClickListener({
                         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(context, holder.picture, "image");
-                        ActivityCompat.startActivity(context, IntentFor<DetailActivity>(context).putExtra("id", item.id).putExtra("uid", item.user_id), options.toBundle());
+                        ActivityCompat.startActivity(context, Intent(context, DetailActivity::class.java).putExtra("id", item.id).putExtra("uid", item.user_id), options.toBundle());
                     })
                 }
 
             }
             is TopicViewHolder -> {
                 if (item is Goods) {
-                    Picasso.with(context).load(handleByCDN(context, item.picUrl, 640, 260)).into(holder.picture)
+                    Picasso.with(context).load(Tools.handleByCDN(context, item.picUrl, 640, 260)).into(holder.picture)
                 }
             }
             is NationViewHolder -> {
@@ -130,7 +128,7 @@ class HomeAdapter(context: Context, data: List<Any>?) : RecyclerView.Adapter<Rec
 
         init {
             val p = picture.layoutParams
-            p.width = context.resources.displayMetrics.widthPixels - dp2px(context, 16)
+            p.width = context.resources.displayMetrics.widthPixels - Tools.dp2px(context, 16)
             p.height = p.width * 26 / 64
             picture.layoutParams = p
         }
