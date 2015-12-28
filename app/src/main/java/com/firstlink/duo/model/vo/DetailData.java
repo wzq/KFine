@@ -1,4 +1,4 @@
-package com.firstlink.duo.vo;
+package com.firstlink.duo.model.vo;
 
 
 import com.firstlink.duo.model.Post;

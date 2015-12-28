@@ -12,10 +12,10 @@ import android.view.ViewGroup
 import com.firstlink.duo.R
 import com.firstlink.duo.adapters.HomeAdapter
 import com.firstlink.duo.model.Goods
+import com.firstlink.duo.model.vo.HomeListData
 import com.firstlink.duo.util.OkHelper
 import com.firstlink.duo.util.UrlSet
-import com.firstlink.duo.util.VerticalItemDecoration
-import com.firstlink.duo.vo.HomeListData
+import com.firstlink.duo.widget.decorations.VerticalItemDecoration
 import com.google.gson.Gson
 import org.json.JSONObject
 import kotlin.properties.Delegates
@@ -47,14 +47,19 @@ class HomeFragment : Fragment() {
     }
 
     val updater = fun (urlSet : UrlSet, response : String?) : Unit{
-        var result = Gson().fromJson(JSONObject(response).getJSONObject("data").toString(), HomeListData::class.java)
-        result.topicList.map { goods -> goods.displayType = HomeAdapter.TYPE_TOPIC }
-        result.list.map { goods -> goods.displayType = HomeAdapter.TYPE_NORMAL }
-        var data = arrayListOf<Any>()
-        data.add(fun (): Goods{ val temp = Goods(); temp.displayType=HomeAdapter.TYPE_NATION; return temp }())
-        data.addAll(result.topicList)
-        data.addAll(result.list)
-        adapter = HomeAdapter(activity, data)
-        recycler.adapter = adapter
+        when (urlSet) {
+            UrlSet.FIND_HOME_DATA -> {
+                var result = Gson().fromJson(JSONObject(response).getJSONObject("data").toString(), HomeListData::class.java)
+                result.topicList.map { goods -> goods.displayType = HomeAdapter.TYPE_TOPIC }
+                result.list.map { goods -> goods.displayType = HomeAdapter.TYPE_NORMAL }
+                var data = arrayListOf<Any>()
+                data.add(fun (): Goods { val temp = Goods(); temp.displayType=HomeAdapter.TYPE_NATION; return temp }())
+                data.addAll(result.topicList)
+                data.addAll(result.list)
+                adapter = HomeAdapter(activity, data)
+                recycler.adapter = adapter
+            }
+            else -> return Unit
+        }
     }
 }

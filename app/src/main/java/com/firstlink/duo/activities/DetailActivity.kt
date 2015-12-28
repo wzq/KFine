@@ -6,9 +6,9 @@ import android.support.v4.view.ViewCompat
 import android.view.MenuItem
 import android.widget.ImageView
 import com.firstlink.duo.R
+import com.firstlink.duo.model.vo.DetailData
 import com.firstlink.duo.util.OkHelper
 import com.firstlink.duo.util.UrlSet
-import com.firstlink.duo.vo.DetailData
 import com.google.gson.Gson
 import org.json.JSONObject
 

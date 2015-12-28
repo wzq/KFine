@@ -35,6 +35,7 @@ class OkHelper {
         OkHttpClient().newCall(initRequest(context, urlSet, params)).enqueue(object : Callback {
             override fun onResponse(response: Response?) {
                 val result = response?.body()?.string()
+                println("${urlSet.name} -> $result")
                 handler.post { updater(urlSet, result) }
             }
 

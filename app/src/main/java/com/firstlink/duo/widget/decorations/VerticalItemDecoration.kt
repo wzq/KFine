@@ -1,5 +1,6 @@
-package com.firstlink.duo.util
+package com.firstlink.duo.widget.decorations
 
+import android.R
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Rect
@@ -140,7 +141,7 @@ class VerticalItemDecoration(private val mDividerViewTypeMap: HashMap<Int, Drawa
 
     companion object {
 
-        private val ATTRS = intArrayOf(android.R.attr.listDivider)
+        private val ATTRS = intArrayOf(R.attr.listDivider)
     }
 
 }

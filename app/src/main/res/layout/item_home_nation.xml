@@ -19,7 +19,7 @@
         android:layout_marginBottom="8dp">
 
         <com.balysv.materialripple.MaterialRippleLayout
-            android:id="@+id/ripple_l"
+            android:id="@+id/home_nation_jp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:mrl_rippleAlpha="0.1"
@@ -28,13 +28,17 @@
             app:mrl_rippleFadeDuration="75">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="12dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
                 android:text="Japan"
                 android:textColor="@color/secondary_text"
-                android:textSize="16dp" />
+                android:textSize="16dp"
+                android:gravity="center_vertical"
+                android:layout_gravity="center"
+                android:drawablePadding="8dp"
+                android:drawableLeft="@drawable/japan_flag"/>
         </com.balysv.materialripple.MaterialRippleLayout>
 
     </android.support.v7.widget.CardView>
@@ -47,7 +51,7 @@
         app:cardPreventCornerOverlap="true">
 
         <com.balysv.materialripple.MaterialRippleLayout
-            android:id="@+id/ripple_r"
+            android:id="@+id/home_nation_us"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:mrl_rippleAlpha="0.1"
@@ -56,13 +60,17 @@
             app:mrl_rippleFadeDuration="75">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="12dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
                 android:text="America"
+                android:gravity="center_vertical"
+                android:layout_gravity="center"
                 android:textColor="@color/secondary_text"
-                android:textSize="16dp" />
+                android:textSize="16dp"
+                android:drawableLeft="@drawable/usa_flag"
+                android:drawablePadding="8dp"/>
         </com.balysv.materialripple.MaterialRippleLayout>
 
     </android.support.v7.widget.CardView>

@@ -1,5 +1,6 @@
 package com.firstlink.duo.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
@@ -35,6 +36,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         val userPicture = navigationView.getHeaderView(0).findViewById(R.id.imageView) as ImageView
         val mDrawableBuilder = TextDrawable.builder().beginConfig().withBorder(0).endConfig().round();
         userPicture.setImageDrawable(mDrawableBuilder.build(getString(R.string.app_name).substring(0,2), ColorGenerator.MATERIAL.randomColor))
+        navigationView.getHeaderView(0).setOnClickListener({ startActivity(Intent(this@MainActivity, LoginActivity::class.java)) })
 
         supportFragmentManager.beginTransaction().replace(R.id.main_container, HomeFragment()).commit()
     }

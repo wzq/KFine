@@ -15,6 +15,7 @@ import android.widget.TextView
 import com.firstlink.duo.R
 import com.firstlink.duo.activities.BaseActivity
 import com.firstlink.duo.activities.DetailActivity
+import com.firstlink.duo.activities.WebActivity
 import com.firstlink.duo.model.Goods
 import com.firstlink.duo.util.Tools
 import com.squareup.picasso.Picasso
@@ -59,7 +60,11 @@ class HomeAdapter(context: Context, data: List<Any>?) : RecyclerView.Adapter<Rec
                 }
             }
             is NationViewHolder -> {
-
+                for(v in holder.flags){
+                    for(v in holder.flags) {
+                        v.setOnClickListener({ context.startActivity(Intent(context, WebActivity::class.java).putExtra("web_url", "http://www.baidu.com")) })
+                    }
+                }
             }
 
         }
@@ -99,12 +104,11 @@ class HomeAdapter(context: Context, data: List<Any>?) : RecyclerView.Adapter<Rec
             if (holder?.layoutPosition!! > lastPosition) {
                 val animBottom = AnimationUtils.loadAnimation(holder?.itemView!!.context, R.anim.bottom_in)
                 holder?.itemView!!.startAnimation(animBottom)
-
+                lastPosition = holder?.layoutPosition ?: -1
             } else if (holder?.layoutPosition!! < lastPosition) {
-                val animLeft = AnimationUtils.loadAnimation(holder?.itemView!!.context, R.anim.top_in)
-                holder?.itemView!!.startAnimation(animLeft)
+//                val animLeft = AnimationUtils.loadAnimation(holder?.itemView!!.context, R.anim.top_in)
+//                holder?.itemView!!.startAnimation(animLeft)
             }
-            lastPosition = holder?.layoutPosition ?: -1
         }
     }
 
@@ -135,6 +139,6 @@ class HomeAdapter(context: Context, data: List<Any>?) : RecyclerView.Adapter<Rec
     }
 
     inner class NationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
+        val flags = arrayOf(itemView.findViewById(R.id.home_nation_jp), itemView.findViewById(R.id.home_nation_us))
     }
 }
