@@ -13,8 +13,8 @@ import com.firstlink.duo.R
 import com.firstlink.duo.adapters.HomeAdapter
 import com.firstlink.duo.model.Goods
 import com.firstlink.duo.model.vo.HomeListData
-import com.firstlink.duo.util.OkHelper
-import com.firstlink.duo.util.UrlSet
+import com.firstlink.duo.util.network.OkHelper
+import com.firstlink.duo.util.network.UrlSet
 import com.firstlink.duo.widget.decorations.VerticalItemDecoration
 import kotlin.properties.Delegates
 
@@ -40,15 +40,11 @@ class HomeFragment : Fragment() {
                 .type(HomeAdapter.TYPE_NORMAL, R.drawable.div_home_list)
                 .type(HomeAdapter.TYPE_TOPIC, R.drawable.div_home_list)
                 .last(R.drawable.div_home_list).create())
-        time = System.currentTimeMillis()
         OkHelper(activity).asyncPost(UrlSet.FIND_HOME_DATA, "{start_row:$startRow,page_size:$pageSize}", HomeListData::class.java, updater)
 
         return root
     }
-var time : Long = 0
     val updater = fun (result: HomeListData?, urlSet : UrlSet, resultCode: Int, msg: String) : Unit{
-        val l = System.currentTimeMillis() - time
-        println(l)
         when (urlSet) {
             UrlSet.FIND_HOME_DATA -> {
                 result!!.topicList.map { goods -> goods.displayType = HomeAdapter.TYPE_TOPIC }

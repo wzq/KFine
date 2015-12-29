@@ -1,4 +1,4 @@
-package com.firstlink.duo.util
+package com.firstlink.duo.util.network
 
 import android.content.Context
 import android.os.Handler
@@ -6,6 +6,7 @@ import android.os.Looper
 import android.telephony.TelephonyManager
 import android.text.TextUtils
 import com.firstlink.duo.BuildConfig
+import com.firstlink.duo.util.PreferenceTools
 import com.google.gson.Gson
 import com.squareup.okhttp.*
 import org.json.JSONObject

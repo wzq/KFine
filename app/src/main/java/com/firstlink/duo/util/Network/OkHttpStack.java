@@ -1,4 +1,4 @@
-package com.firstlink.duo.util;
+package com.firstlink.duo.util.network;
 
 import com.android.volley.toolbox.HurlStack;
 import com.squareup.okhttp.OkHttpClient;

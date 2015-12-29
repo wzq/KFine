@@ -1,4 +1,4 @@
-package com.firstlink.duo.util
+package com.firstlink.duo.util.network
 
 import com.firstlink.duo.BuildConfig
 

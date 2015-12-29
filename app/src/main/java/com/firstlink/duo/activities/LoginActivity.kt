@@ -5,9 +5,9 @@ import android.view.View
 import android.widget.EditText
 import com.firstlink.duo.R
 import com.firstlink.duo.model.vo.LoginResult
-import com.firstlink.duo.util.OkHelper
 import com.firstlink.duo.util.Tools
-import com.firstlink.duo.util.UrlSet
+import com.firstlink.duo.util.network.OkHelper
+import com.firstlink.duo.util.network.UrlSet
 import com.google.gson.Gson
 import org.json.JSONObject
 

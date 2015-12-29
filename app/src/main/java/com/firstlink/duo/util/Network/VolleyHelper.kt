@@ -1,4 +1,4 @@
-package com.firstlink.duo.util
+package com.firstlink.duo.util.network
 
 import android.content.Context
 import android.telephony.TelephonyManager
@@ -10,6 +10,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.firstlink.duo.BuildConfig
+import com.firstlink.duo.util.PreferenceTools
 import com.google.gson.Gson
 import org.json.JSONObject
 import java.util.*

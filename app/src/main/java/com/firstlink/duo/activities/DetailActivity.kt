@@ -7,7 +7,7 @@ import android.view.MenuItem
 import android.widget.ImageView
 import com.firstlink.duo.R
 import com.firstlink.duo.model.vo.DetailData
-import com.firstlink.duo.util.UrlSet
+import com.firstlink.duo.util.network.UrlSet
 import com.google.gson.Gson
 import org.json.JSONObject
 
