@@ -20,7 +20,8 @@ class LaunchActivity : Activity(){
         val mDrawableBuilder = TextDrawable.builder().beginConfig().withBorder(0).endConfig().round();
 
         logo.setImageDrawable(mDrawableBuilder.build(getString(R.string.app_name).substring(0, 2), ContextCompat.getColor(this, R.color.accent)))
-        startActivity(Intent(this@LaunchActivity, MainActivity::class.java))
+
+        logo.setOnClickListener {         startActivity(Intent(this@LaunchActivity, MainActivity::class.java)) }
 //        runDelayedOnUiThread(200, {
 //            val mExplosionField = ExplosionField.attach2Window(this@LaunchActivity, {
 //                startActivity(IntentFor<MainActivity>(this@LaunchActivity))

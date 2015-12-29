@@ -6,7 +6,9 @@ import android.os.Looper
 import android.telephony.TelephonyManager
 import android.text.TextUtils
 import com.firstlink.duo.BuildConfig
+import com.google.gson.Gson
 import com.squareup.okhttp.*
+import org.json.JSONObject
 import java.io.IOException
 import java.util.*
 
@@ -19,32 +21,28 @@ class OkHelper {
 
     val handler : Handler
 
-    val updater : (hostSet : UrlSet, response: String?) -> Unit
+    val context: Context
 
-    val failure : (request: Request?, e: IOException?) -> Unit
-
-    constructor(updater: (urlSet : UrlSet, response: String?) -> Unit){
+    constructor(context: Context){
         handler = Handler(Looper.getMainLooper())
-        this.updater = updater
-        this.failure = { r, e -> Unit }
+        this.context = context
     }
 
-    constructor(updater: (urlSet : UrlSet, response: String?) -> Unit, failure: (request: Request?, e: IOException?) -> Unit){
-        handler = Handler(Looper.getMainLooper())
-        this.updater = updater
-        this.failure = failure
-    }
-
-    fun asyncPost(context: Context, urlSet : UrlSet, params : String) {
+    fun <T> asyncPost(urlSet : UrlSet, params : String, clazz: Class<T>, callback: (result: T?, urlSet : UrlSet, resultCode: Int, msg: String) -> Unit) {
         OkHttpClient().newCall(initRequest(context, urlSet, params)).enqueue(object : Callback {
             override fun onResponse(response: Response?) {
-                val result = response?.body()?.string()
-                println("${urlSet.name} -> $result")
-                handler.post { updater(urlSet, result) }
+                val s = JSONObject(response?.body()?.string())
+                val code = s.getInt("code")
+                val data = s.getString("data")
+                val errorMsg = s.getString("message")
+                if(TextUtils.isEmpty(data))
+                    handler.post { callback(null , urlSet, code, errorMsg) }
+                else{
+                    handler.post { callback(Gson().fromJson(data, clazz), urlSet, code, errorMsg) }
+                }
             }
 
             override fun onFailure(request: Request?, e: IOException?) {
-                handler.post { failure(request, e) }
             }
 
         })

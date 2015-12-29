@@ -7,7 +7,6 @@ import android.view.MenuItem
 import android.widget.ImageView
 import com.firstlink.duo.R
 import com.firstlink.duo.model.vo.DetailData
-import com.firstlink.duo.util.OkHelper
 import com.firstlink.duo.util.UrlSet
 import com.google.gson.Gson
 import org.json.JSONObject
@@ -26,7 +25,7 @@ class DetailActivity : BaseActivity() {
         val img = findViewById(R.id.test_img) as ImageView
         ViewCompat.setTransitionName(img, "image")
 
-        OkHelper(updater).asyncPost(this, UrlSet.FIND_GOODS_DETAIL, "{id:${intent.getIntExtra("id", 0)},user_id:${intent.getIntExtra("uid", 0)}}")
+//        OkHelper(updater).asyncPost(this, UrlSet.FIND_GOODS_DETAIL, "{id:${intent.getIntExtra("id", 0)},user_id:${intent.getIntExtra("uid", 0)}}")
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

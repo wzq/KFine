@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         app:met_primaryColor="@color/accent"
         app:met_floatingLabel="highlight"
-        android:hint="Telephone"/>
+        android:hint="Telephone"
+        android:id="@+id/login_phone"/>
 
     <com.rengwuxian.materialedittext.MaterialEditText
         android:layout_width="match_parent"
@@ -19,5 +20,12 @@
         android:layout_marginTop="8dp"
         app:met_primaryColor="@color/accent"
         app:met_floatingLabel="highlight"
-        android:hint="Password"/>
+        android:hint="Password"
+        android:id="@+id/login_password"/>
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/login_submit"/>
 </LinearLayout>
