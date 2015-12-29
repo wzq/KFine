@@ -35,6 +35,7 @@ class HomeFragment : Fragment() {
         val root = inflater?.inflate(R.layout.fragment_home, container, false) as SwipeRefreshLayout
         root.setColorSchemeResources(R.color.accent)
         root.setOnRefreshListener { Handler().postDelayed({root.isRefreshing = false}, 1000) }
+
         recycler = root.findViewById(R.id.home_recycler) as RecyclerView
         recycler.layoutManager = LinearLayoutManager(activity)
         recycler.addItemDecoration(VerticalItemDecoration.Builder(activity)
