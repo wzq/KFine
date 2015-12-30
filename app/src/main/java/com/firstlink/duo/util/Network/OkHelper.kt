@@ -5,6 +5,7 @@ import android.os.Handler
 import android.os.Looper
 import android.telephony.TelephonyManager
 import android.text.TextUtils
+import android.util.Log
 import com.firstlink.duo.BuildConfig
 import com.firstlink.duo.util.PreferenceTools
 import com.google.gson.Gson
@@ -29,10 +30,11 @@ class OkHelper {
         this.context = context
     }
 
-    fun <T> asyncPost(urlSet : UrlSet, params : String, clazz: Class<T>, callback: (result: T?, urlSet : UrlSet, resultCode: Int, msg: String) -> Unit) {
+    fun <T> asyncPost(urlSet : UrlSet, params : MutableMap<String, String>?, clazz: Class<T>, callback: (result: T?, urlSet : UrlSet, resultCode: Int, msg: String) -> Unit) {
         OkHttpClient().newCall(initRequest(context, urlSet, params)).enqueue(object : Callback {
             override fun onResponse(response: Response?) {
                 val s = JSONObject(response?.body()?.string())
+                Log.d(TAG, "${urlSet.name} -> ${s.toString()}")
                 val code = s.getInt("code")
                 val data = s.getString("data")
                 val errorMsg = s.getString("message")
@@ -49,11 +51,11 @@ class OkHelper {
         })
     }
 
-    fun initRequest(context: Context, urlSet: UrlSet, params: String): Request {
+    fun initRequest(context: Context, urlSet: UrlSet, params : MutableMap<String, String>?): Request {
         return Request.Builder().url(urlSet.url).post(fun(): RequestBody {
             val c = getParams(context);
             if (urlSet.key != null) {
-                c.add(urlSet.key, params)
+                c.add(urlSet.key, Gson().toJson(params))
             }
             return c.build()
         }()).tag(urlSet).build()

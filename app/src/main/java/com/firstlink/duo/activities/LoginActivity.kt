@@ -1,6 +1,7 @@
 package com.firstlink.duo.activities
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import com.firstlink.duo.R
@@ -8,8 +9,6 @@ import com.firstlink.duo.model.vo.LoginResult
 import com.firstlink.duo.util.Tools
 import com.firstlink.duo.util.network.OkHelper
 import com.firstlink.duo.util.network.UrlSet
-import com.google.gson.Gson
-import org.json.JSONObject
 
 /**
  * Created by wzq on 15/12/26.
@@ -28,22 +27,26 @@ class LoginActivity : BaseActivity(){
         val password = findViewById(R.id.login_password) as EditText
 
         findViewById(R.id.login_submit).setOnClickListener({
-            val params = JSONObject()
+            val params = hashMapOf<String, String>()
             params.put("mobile", phone.text.toString())
-            params.put("password", Tools.getEncrypy(password.text.toString().trim { it <= ' ' }))
+            params.put("password", Tools.getEncrypy(password.text.toString().trim())!!)
             params.put("d_id", OkHelper.getDeviceId(this@LoginActivity))
             params.put("p", "a")
             params.put("en_m", "RSA")
+            OkHelper(this).asyncPost(UrlSet.LOGIN, params, LoginResult::class.java, updater)
         })
+
 
     }
 
 
-    val updater = fun (urlSet : UrlSet, response : String?) : Unit{
-        var result = Gson().fromJson(JSONObject(response).getJSONObject("data").toString(), LoginResult::class.java)
+    val updater = fun (user: LoginResult?, urlSet : UrlSet, resultCode: Int, msg: String) : Unit{
+        println(user?.mark)
+    }
 
-        println(result.mark)
-        if(result.mark == 2){
-        }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        finish()
+        return super.onOptionsItemSelected(item)
     }
 }

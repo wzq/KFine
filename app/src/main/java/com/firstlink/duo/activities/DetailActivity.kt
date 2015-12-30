@@ -2,14 +2,20 @@ package com.firstlink.duo.activities
 
 import android.os.Build
 import android.os.Bundle
+import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewCompat
+import android.support.v4.view.ViewPager
 import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
+import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.firstlink.duo.R
 import com.firstlink.duo.model.vo.DetailData
+import com.firstlink.duo.util.Tools
+import com.firstlink.duo.util.network.OkHelper
 import com.firstlink.duo.util.network.UrlSet
-import com.google.gson.Gson
-import org.json.JSONObject
+import com.squareup.picasso.Picasso
 
 /**
  * Created by wzq on 15/12/22.
@@ -17,15 +23,28 @@ import org.json.JSONObject
 class DetailActivity : BaseActivity() {
 
 
-    override  fun onCreate(savedInstanceState: Bundle?) {
+    var pager: ViewPager? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initRootView(R.layout.activity_detail)
-        title = "Detail"
+        val color = ColorGenerator.MATERIAL.randomColor
+        window.statusBarColor = color
+        baseToolBar.setBackgroundColor(color)
+        title = "Item Detail"
         supportActionBar.setDisplayHomeAsUpEnabled(true)
-        val img = findViewById(R.id.test_img) as ImageView
-        ViewCompat.setTransitionName(img, "image")
 
-//        OkHelper(updater).asyncPost(this, UrlSet.FIND_GOODS_DETAIL, "{id:${intent.getIntExtra("id", 0)},user_id:${intent.getIntExtra("uid", 0)}}")
+        pager = findViewById(R.id.detail_pager) as ViewPager
+        ViewCompat.setTransitionName(pager, "image")
+
+        getData()
+    }
+
+    private fun getData() {
+        val params = hashMapOf<String, String>()
+        params.put("id", "${intent.getIntExtra("id", 0)}")
+        params.put("user_id", "${intent.getIntExtra("uid", 0)}")
+        OkHelper(this).asyncPost(UrlSet.FIND_GOODS_DETAIL, params, DetailData::class.java, updater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -36,7 +55,44 @@ class DetailActivity : BaseActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    val updater = fun (hostSet : UrlSet, response : String?) : Unit{
-        val result = Gson().fromJson(JSONObject(response).getJSONObject("data").toString(), DetailData::class.java)
+    private val updater = fun(data: DetailData?, urlSet: UrlSet, resultCode: Int, msg: String): Unit {
+        baseProgress.visibility = View.GONE
+
+        val p = pager?.layoutParams!!
+        p.width = resources.displayMetrics.widthPixels
+        p.height = (p.width * 0.618).toInt()
+        pager?.layoutParams = p
+
+        val images = arrayListOf<ImageView>()
+        for (item in data!!.post.itemPics) {
+            val image = ImageView(this@DetailActivity)
+            image.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+            image.scaleType = ImageView.ScaleType.FIT_CENTER
+            Picasso.with(this).load(Tools.cdn1(item.picUrl, p.width, p.height)).into(image)
+            images.add(image)
+        }
+        pager?.adapter = DetailAdapter(images)
+
+    }
+
+
+    inner class DetailAdapter(val itemViews: List<ImageView>) : PagerAdapter() {
+
+        override fun getCount(): Int {
+            return itemViews.size
+        }
+
+        override fun isViewFromObject(arg0: View, arg1: Any): Boolean {
+            return arg0 === arg1
+        }
+
+        override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+            container.removeView(itemViews[position])
+        }
+
+        override fun instantiateItem(container: ViewGroup, position: Int): Any {
+            container.addView(itemViews[position], 0)
+            return itemViews[position]
+        }
     }
 }

@@ -41,7 +41,8 @@ class HomeAdapter(context: Context, data: List<Any>?) : RecyclerView.Adapter<Rec
         when (holder) {
             is NormalViewHolder -> {
                 if (item is Goods) {
-                    Picasso.with(context).load(Tools.handleByCDN(context, item.indexPic, 200, 200)).into(holder.picture)
+                    Picasso.with(context).load(Tools.cdn1(item.indexPic, Tools.dp2px(context,100), Tools.dp2px(context,100))).into(holder.picture)
+
                     holder.title.text = item.title
                     holder.content.text = item.description
                     holder.price.text = Tools.formatPrice(item.price.toFloat())
@@ -56,7 +57,7 @@ class HomeAdapter(context: Context, data: List<Any>?) : RecyclerView.Adapter<Rec
             }
             is TopicViewHolder -> {
                 if (item is Goods) {
-                    Picasso.with(context).load(Tools.handleByCDN(context, item.picUrl, 640, 260)).into(holder.picture)
+                    Picasso.with(context).load(Tools.cdn1(item.picUrl, holder.w, holder.h)).into(holder.picture)
                 }
             }
             is NationViewHolder -> {
@@ -104,11 +105,11 @@ class HomeAdapter(context: Context, data: List<Any>?) : RecyclerView.Adapter<Rec
             if (holder?.layoutPosition!! > lastPosition) {
                 val animBottom = AnimationUtils.loadAnimation(holder?.itemView!!.context, R.anim.bottom_in)
                 holder?.itemView!!.startAnimation(animBottom)
-                lastPosition = holder?.layoutPosition ?: -1
             } else if (holder?.layoutPosition!! < lastPosition) {
-//                val animLeft = AnimationUtils.loadAnimation(holder?.itemView!!.context, R.anim.top_in)
-//                holder?.itemView!!.startAnimation(animLeft)
+                val animLeft = AnimationUtils.loadAnimation(holder?.itemView!!.context, R.anim.top_in)
+                holder?.itemView!!.startAnimation(animLeft)
             }
+            lastPosition = holder?.layoutPosition ?: -1
         }
     }
 
@@ -130,11 +131,17 @@ class HomeAdapter(context: Context, data: List<Any>?) : RecyclerView.Adapter<Rec
     inner class TopicViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val picture = itemView.findViewById(R.id.topic_pic) as ImageView
 
+        val w : Int
+
+        val h : Int
+
         init {
             val p = picture.layoutParams
             p.width = context.resources.displayMetrics.widthPixels - Tools.dp2px(context, 16)
             p.height = p.width * 26 / 64
             picture.layoutParams = p
+            w = p.width
+            h = p.height
         }
     }
 

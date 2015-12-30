@@ -27,7 +27,7 @@ class HomeFragment : Fragment() {
 
     var adapter : HomeAdapter by Delegates.notNull()
 
-    var startRow = 0; var pageSize = 200
+    var startRow = 0; var pageSize = 20
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater?.inflate(R.layout.fragment_home, container, false) as SwipeRefreshLayout
@@ -40,8 +40,11 @@ class HomeFragment : Fragment() {
                 .type(HomeAdapter.TYPE_NORMAL, R.drawable.div_home_list)
                 .type(HomeAdapter.TYPE_TOPIC, R.drawable.div_home_list)
                 .last(R.drawable.div_home_list).create())
-        OkHelper(activity).asyncPost(UrlSet.FIND_HOME_DATA, "{start_row:$startRow,page_size:$pageSize}", HomeListData::class.java, updater)
 
+        val params = hashMapOf<String, String>()
+        params.put("start_row", "0")
+        params.put("page_size", "20")
+        OkHelper(activity).asyncPost(UrlSet.FIND_HOME_DATA, params, HomeListData::class.java, updater)
         return root
     }
     val updater = fun (result: HomeListData?, urlSet : UrlSet, resultCode: Int, msg: String) : Unit{

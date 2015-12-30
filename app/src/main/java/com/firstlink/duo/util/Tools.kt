@@ -28,11 +28,16 @@ object Tools {
         return "¥${(f/100.0).toString().format("%.2f")}"
     }
 
-    fun handleByCDN(context: Context, url : String, w : Int, h : Int) : String{
-        if(DENSITY < 1){
-            DENSITY = (context.resources.displayMetrics.density+0.5).toInt()
+    fun cdn6s(context: Context, url : String, w : Int, h : Int) : String{
+        if(DENSITY == 0){
+            val d = (context.resources.displayMetrics.density/2+0.5).toInt()
+            DENSITY = if (d>0) d else 1
         }
         return url.plus("@${w}w_${h}h_1e_1c_${DENSITY}x_1o")
+    }
+
+    fun cdn1(url : String, w : Int, h : Int) : String{
+        return url.plus("@${w}w_${h}h_1e_1c_1x_1o")
     }
 
     fun getEncrypy(value: String): String? {
