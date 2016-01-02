@@ -18,11 +18,11 @@ import java.util.*
 /**
  * Created by wzq on 15/4/14.
  */
-class VolleyHelper(context: Context) {
+class VolleyHelper {
 
     val context: Context
 
-    init {
+    private constructor(context: Context) {
         this.context = context
         if(queue == null) {
             queue = Volley.newRequestQueue(context, OkHttpStack())
@@ -34,16 +34,14 @@ class VolleyHelper(context: Context) {
         queue?.add(request)
     }
 
-    fun <T> post(urlSet: UrlSet, params: MutableMap<String, String>?, clazz: Class<T>, callback: (response: T?, urlSet : UrlSet, resultCode: Int, msg: String) -> Unit){
+    fun <T> addPost(urlSet: UrlSet, params: MutableMap<String, *>?, clazz: Class<T>?, callback: (obj: T?, urlSet : UrlSet, result: Original) -> Unit){
         addRequest(object :StringRequest(Request.Method.POST, urlSet.url, Response.Listener { s ->
             val response = JSONObject(s)
-            val code = response.getInt("code")
-            val data = response.getString("data")
-            val errorMsg = response.getString("message")
-            if(TextUtils.isEmpty(data))
-                callback(null , urlSet, code, errorMsg)
-            else{
-                callback(Gson().fromJson(data, clazz), urlSet, code, errorMsg)
+            val original = Original(response.getInt("code"), response.getString("data"), response.getString("message"))
+            if(clazz != null && original.code == 1) {
+                callback(Gson().fromJson(original.data, clazz), urlSet, original)
+            }else {
+                callback(null, urlSet, original)
             }
 
         }, Response.ErrorListener { error -> error.printStackTrace() }){
@@ -76,6 +74,15 @@ class VolleyHelper(context: Context) {
         private val RETRIES = 3
 
         private var queue: RequestQueue? = null
+
+        private var helper: VolleyHelper? = null
+
+        fun call(context: Context): VolleyHelper{
+            if(helper == null){
+                helper = VolleyHelper(context)
+            }
+            return helper!!
+        }
 
         fun getHeadParams(context: Context): MutableMap<String, String> {
             val params = hashMapOf<String, String>()

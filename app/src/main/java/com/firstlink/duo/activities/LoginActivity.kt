@@ -7,8 +7,9 @@ import android.widget.EditText
 import com.firstlink.duo.R
 import com.firstlink.duo.model.vo.LoginResult
 import com.firstlink.duo.util.Tools
-import com.firstlink.duo.util.network.OkHelper
+import com.firstlink.duo.util.network.Original
 import com.firstlink.duo.util.network.UrlSet
+import com.firstlink.duo.util.network.VolleyHelper
 
 /**
  * Created by wzq on 15/12/26.
@@ -30,17 +31,17 @@ class LoginActivity : BaseActivity(){
             val params = hashMapOf<String, String>()
             params.put("mobile", phone.text.toString())
             params.put("password", Tools.getEncrypy(password.text.toString().trim())!!)
-            params.put("d_id", OkHelper.getDeviceId(this@LoginActivity))
+            params.put("d_id", VolleyHelper.getDeviceId(this@LoginActivity))
             params.put("p", "a")
             params.put("en_m", "RSA")
-            OkHelper(this).asyncPost(UrlSet.LOGIN, params, LoginResult::class.java, updater)
+            VolleyHelper.call(this).addPost(UrlSet.LOGIN, params, LoginResult::class.java, updater)
         })
 
 
     }
 
 
-    val updater = fun (user: LoginResult?, urlSet : UrlSet, resultCode: Int, msg: String) : Unit{
+    val updater = fun (user: LoginResult?, urlSet : UrlSet, resul: Original) : Unit{
         println(user?.mark)
     }
 

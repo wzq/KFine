@@ -1,22 +1,18 @@
 package com.firstlink.duo.model.vo;
 
 
+import com.firstlink.duo.model.Comment;
 import com.firstlink.duo.model.Post;
 import com.firstlink.duo.model.PostSubClass;
 import com.firstlink.duo.model.ServiceUser;
 import com.google.gson.annotations.SerializedName;
 
-import org.w3c.dom.Comment;
-
-import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by ruanjinjing on 15/6/5.
  */
-public class DetailData implements Serializable {
-
-    private static final long serialVersionUID = 1420763733536200519L;
+public class DetailData {
 
     @SerializedName("post")
     public Post post;

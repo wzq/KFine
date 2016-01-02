@@ -13,8 +13,8 @@ import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.firstlink.duo.R
 import com.firstlink.duo.model.vo.DetailData
 import com.firstlink.duo.util.Tools
-import com.firstlink.duo.util.network.OkHelper
 import com.firstlink.duo.util.network.UrlSet
+import com.firstlink.duo.util.network.VolleyHelper
 import com.squareup.picasso.Picasso
 
 /**
@@ -44,7 +44,7 @@ class DetailActivity : BaseActivity() {
         val params = hashMapOf<String, String>()
         params.put("id", "${intent.getIntExtra("id", 0)}")
         params.put("user_id", "${intent.getIntExtra("uid", 0)}")
-        OkHelper(this).asyncPost(UrlSet.FIND_GOODS_DETAIL, params, DetailData::class.java, updater)
+        VolleyHelper.call(this).addPost(UrlSet.FIND_GOODS_DETAIL, params, DetailData::class.java, updater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
