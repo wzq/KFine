@@ -13,6 +13,7 @@ import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.firstlink.duo.R
 import com.firstlink.duo.model.vo.DetailData
 import com.firstlink.duo.util.Tools
+import com.firstlink.duo.util.network.Original
 import com.firstlink.duo.util.network.UrlSet
 import com.firstlink.duo.util.network.VolleyHelper
 import com.squareup.picasso.Picasso
@@ -29,7 +30,9 @@ class DetailActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         initRootView(R.layout.activity_detail)
         val color = ColorGenerator.MATERIAL.randomColor
-        window.statusBarColor = color
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.statusBarColor = color
+        }
         baseToolBar.setBackgroundColor(color)
         title = "Item Detail"
         supportActionBar.setDisplayHomeAsUpEnabled(true)
@@ -55,7 +58,7 @@ class DetailActivity : BaseActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private val updater = fun(data: DetailData?, urlSet: UrlSet, resultCode: Int, msg: String): Unit {
+    private val updater = fun(data: DetailData?, urlSet: UrlSet, resul: Original): Unit {
         baseProgress.visibility = View.GONE
 
         val p = pager?.layoutParams!!

@@ -8,9 +8,9 @@ import com.firstlink.duo.BuildConfig
  */
 enum class UrlSet(vararg s: String) {
 
-    LOGIN("user/login.json", OkHelper.DATA_JSON),
-    FIND_HOME_DATA("post/find_index_datas.json", OkHelper.POST_JSON),
-    FIND_GOODS_DETAIL("post/get_groupon_detail.json", OkHelper.POST_JSON),
+    LOGIN("user/login.json", VolleyHelper.DATA_JSON),
+    FIND_HOME_DATA("post/find_index_datas.json", VolleyHelper.POST_JSON),
+    FIND_GOODS_DETAIL("post/get_groupon_detail.json", VolleyHelper.POST_JSON),
     FIND_NATIONS("tab_page/find_tab_pages.json");
 
     val url: String

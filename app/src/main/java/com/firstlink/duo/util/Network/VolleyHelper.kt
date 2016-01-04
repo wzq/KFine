@@ -3,6 +3,7 @@ package com.firstlink.duo.util.network
 import android.content.Context
 import android.telephony.TelephonyManager
 import android.text.TextUtils
+import android.util.Log
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.RequestQueue
@@ -38,6 +39,7 @@ class VolleyHelper {
         addRequest(object :StringRequest(Request.Method.POST, urlSet.url, Response.Listener { s ->
             val response = JSONObject(s)
             val original = Original(response.getInt("code"), response.getString("data"), response.getString("message"))
+            Log.d("HttpResponse", original.data)
             if(clazz != null && original.code == 1) {
                 callback(Gson().fromJson(original.data, clazz), urlSet, original)
             }else {
@@ -68,6 +70,10 @@ class VolleyHelper {
     }
 
     companion object {
+
+        val DATA_JSON = "data_json"
+
+        val POST_JSON = "post_json"
 
         private val TIMEOUT = 20000
 

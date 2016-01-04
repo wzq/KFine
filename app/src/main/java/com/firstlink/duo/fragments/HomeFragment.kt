@@ -30,6 +30,8 @@ class HomeFragment : Fragment() {
 
     var startRow = 0; var pageSize = 20
 
+    var url = ""
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater?.inflate(R.layout.fragment_home, container, false) as SwipeRefreshLayout
         root.setColorSchemeResources(R.color.accent)
@@ -42,19 +44,24 @@ class HomeFragment : Fragment() {
                 .type(HomeAdapter.TYPE_TOPIC, R.drawable.div_home_list)
                 .last(R.drawable.div_home_list).create())
 
-        val params = hashMapOf(Pair("start_row", 0), Pair("page_size", 20))
-        VolleyHelper.call(activity).addPost(UrlSet.FIND_HOME_DATA, params, HomeListData::class.java, updater)
+        VolleyHelper.call(activity).addPost(UrlSet.FIND_NATIONS, null, HomeListData::class.java, {
+            obj: HomeListData?, urlSet : UrlSet, result: Original ->
+            val params = hashMapOf(Pair("start_row", 0), Pair("page_size", 20))
+            url = obj!!.list[0].targetUrl
+            VolleyHelper.call(activity).addPost(UrlSet.FIND_HOME_DATA, params, HomeListData::class.java, updater)
+        })
+
         return root
     }
-    val updater = fun (result: HomeListData?, urlSet : UrlSet, resul: Original) : Unit{
+    val updater = fun (obj: HomeListData?, urlSet : UrlSet, result: Original) : Unit{
         when (urlSet) {
             UrlSet.FIND_HOME_DATA -> {
-                result!!.topicList.map { goods -> goods.displayType = HomeAdapter.TYPE_TOPIC }
-                result.list.map { goods -> goods.displayType = HomeAdapter.TYPE_NORMAL }
+                obj!!.topicList.map { goods -> goods.displayType = HomeAdapter.TYPE_TOPIC }
+                obj.list.map { goods -> goods.displayType = HomeAdapter.TYPE_NORMAL }
                 var data = arrayListOf<Any>()
-                data.add(fun (): Goods { val temp = Goods(); temp.displayType=HomeAdapter.TYPE_NATION; return temp }())
-                data.addAll(result.topicList)
-                data.addAll(result.list)
+                data.add(fun (): Goods { val temp = Goods(); temp.displayType=HomeAdapter.TYPE_NATION;temp.targetUrl = url; return temp }())
+                data.addAll(obj.topicList)
+                data.addAll(obj.list)
                 adapter = HomeAdapter(activity, data)
                 recycler.adapter = adapter
             }

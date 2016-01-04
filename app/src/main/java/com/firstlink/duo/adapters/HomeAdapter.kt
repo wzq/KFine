@@ -61,9 +61,11 @@ class HomeAdapter(context: Context, data: List<Any>?) : RecyclerView.Adapter<Rec
                 }
             }
             is NationViewHolder -> {
-                for(v in holder.flags){
-                    for(v in holder.flags) {
-                        v.setOnClickListener({ context.startActivity(Intent(context, WebActivity::class.java).putExtra("web_url", "http://www.baidu.com")) })
+                if (item is Goods) {
+                    for (v in holder.flags) {
+                        for (v in holder.flags) {
+                            v.setOnClickListener({ context.startActivity(Intent(context, WebActivity::class.java).putExtra("web_url", item.targetUrl)) })
+                        }
                     }
                 }
             }
