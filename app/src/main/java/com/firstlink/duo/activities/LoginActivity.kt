@@ -1,15 +1,19 @@
 package com.firstlink.duo.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import com.firstlink.duo.R
 import com.firstlink.duo.model.vo.LoginResult
+import com.firstlink.duo.util.EncryptTools
+import com.firstlink.duo.util.PreferenceTools
 import com.firstlink.duo.util.Tools
 import com.firstlink.duo.util.network.Original
 import com.firstlink.duo.util.network.UrlSet
 import com.firstlink.duo.util.network.VolleyHelper
+import com.google.gson.Gson
 
 /**
  * Created by wzq on 15/12/26.
@@ -41,8 +45,14 @@ class LoginActivity : BaseActivity(){
     }
 
 
-    val updater = fun (user: LoginResult?, urlSet : UrlSet, resul: Original) : Unit{
-        println(user?.mark)
+    val updater = fun (result: LoginResult?, urlSet : UrlSet, original: Original) : Unit{
+        if(original.code == 1){
+            if(PreferenceTools.setUser(this@LoginActivity, EncryptTools.aesEncrypt(Gson().toJson(result?.user), EncryptTools.X))) {
+                VolleyHelper.updateHeadParams(result?.user)
+                sendBroadcast(Intent().setAction(Tools.LOGIN_OK))
+                finish()
+            }
+        }
     }
 
 

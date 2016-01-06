@@ -11,6 +11,8 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.firstlink.duo.BuildConfig
+import com.firstlink.duo.model.User
+import com.firstlink.duo.util.Extensions.d
 import com.firstlink.duo.util.PreferenceTools
 import com.google.gson.Gson
 import org.json.JSONObject
@@ -25,7 +27,7 @@ class VolleyHelper {
 
     private constructor(context: Context) {
         this.context = context
-        if(queue == null) {
+        if (queue == null) {
             queue = Volley.newRequestQueue(context, OkHttpStack())
         }
     }
@@ -35,23 +37,24 @@ class VolleyHelper {
         queue?.add(request)
     }
 
-    fun <T> addPost(urlSet: UrlSet, params: MutableMap<String, *>?, clazz: Class<T>?, callback: (obj: T?, urlSet : UrlSet, result: Original) -> Unit){
-        addRequest(object :StringRequest(Request.Method.POST, urlSet.url, Response.Listener { s ->
+    fun <T> addPost(urlSet: UrlSet, params: MutableMap<String, *>?, clazz: Class<T>?, callback: (obj: T?, urlSet: UrlSet, original: Original) -> Unit) {
+        addRequest(object : StringRequest(Request.Method.POST, urlSet.url, Response.Listener { s ->
             val response = JSONObject(s)
             val original = Original(response.getInt("code"), response.getString("data"), response.getString("message"))
             Log.d("HttpResponse", original.data)
-            if(clazz != null && original.code == 1) {
+            if (clazz != null && original.code == 1) {
                 callback(Gson().fromJson(original.data, clazz), urlSet, original)
-            }else {
+            } else {
                 callback(null, urlSet, original)
             }
 
-        }, Response.ErrorListener { error -> error.printStackTrace() }){
+        }, Response.ErrorListener { error -> error.printStackTrace() }) {
             override fun getParams(): MutableMap<String, String>? {
                 val map = getHeadParams(context)
                 if (urlSet.key != null) {
                     map.put(urlSet.key!!, Gson().toJson(params))
                 }
+                d("HttpRequest", map.toString())
                 return map
             }
         })
@@ -61,7 +64,7 @@ class VolleyHelper {
         queue?.stop()
     }
 
-    fun cancelAll(tag : String) {
+    fun cancelAll(tag: String) {
         queue?.cancelAll(tag)
     }
 
@@ -83,26 +86,36 @@ class VolleyHelper {
 
         private var helper: VolleyHelper? = null
 
-        fun call(context: Context): VolleyHelper{
-            if(helper == null){
+        fun call(context: Context): VolleyHelper {
+            if (helper == null) {
                 helper = VolleyHelper(context)
             }
             return helper!!
         }
 
+        var headParams: MutableMap<String, String>? = null
+
         fun getHeadParams(context: Context): MutableMap<String, String> {
-            val params = hashMapOf<String, String>()
-            params.put("d_id", getDeviceId(context))
-            params.put("ts", System.currentTimeMillis().toString())
-            params.put("p", "a")
-            params.put("ver", BuildConfig.VERSION_NAME)
-            params.put("c_id", BuildConfig.UMENG_CHANNEL)
-            val u = PreferenceTools.getUser(context)
-            if (u != null) {
-                params.put("u_id", u.id.toString());
-                params.put("tk", u.token);
+            if (headParams == null) {
+                d("init head params")
+                headParams = hashMapOf<String, String>()
+                headParams?.put("d_id", getDeviceId(context))
+                headParams?.put("ts", System.currentTimeMillis().toString())
+                headParams?.put("p", "a")
+                headParams?.put("ver", BuildConfig.VERSION_NAME)
+                headParams?.put("c_id", BuildConfig.UMENG_CHANNEL)
             }
-            return params
+            return headParams!!
+        }
+
+        fun updateHeadParams(user: User?) {
+            if(user != null) {
+                headParams?.put("u_id", user.id.toString());
+                headParams?.put("tk", user.token);
+            }else{
+                headParams?.remove("u_id")
+                headParams?.remove("tk")
+            }
         }
 
         fun getDeviceId(context: Context): String {

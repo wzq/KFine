@@ -24,7 +24,7 @@ import com.squareup.picasso.Picasso
  * Created by wzq on 15/12/10.
  */
 
-class HomeAdapter(context: Context, data: List<Any>?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class HomeAdapter(context: Context?, data: List<Any>?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val data = data
     val context = context as BaseActivity
@@ -63,9 +63,7 @@ class HomeAdapter(context: Context, data: List<Any>?) : RecyclerView.Adapter<Rec
             is NationViewHolder -> {
                 if (item is Goods) {
                     for (v in holder.flags) {
-                        for (v in holder.flags) {
-                            v.setOnClickListener({ context.startActivity(Intent(context, WebActivity::class.java).putExtra("web_url", item.targetUrl)) })
-                        }
+                        v.setOnClickListener({ context.startActivity(Intent(context, WebActivity::class.java).putExtra("web_url", item.targetUrl)) })
                     }
                 }
             }
@@ -103,7 +101,7 @@ class HomeAdapter(context: Context, data: List<Any>?) : RecyclerView.Adapter<Rec
     override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder?) {
         super.onViewAttachedToWindow(holder)
         if (holder?.itemViewType != TYPE_NATION) {
-            holder?.itemView!!.clearAnimation()
+            holder?.itemView?.clearAnimation()
             if (holder?.layoutPosition!! > lastPosition) {
                 val animBottom = AnimationUtils.loadAnimation(holder?.itemView!!.context, R.anim.bottom_in)
                 holder?.itemView!!.startAnimation(animBottom)

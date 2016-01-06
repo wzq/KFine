@@ -1,6 +1,7 @@
 package com.firstlink.duo.util
 
 import android.content.Context
+import android.text.TextUtils
 import com.firstlink.duo.BuildConfig
 import com.firstlink.duo.model.User
 import com.google.gson.Gson
@@ -16,13 +17,16 @@ object PreferenceTools {
     val TAG_DEVICE = "device"
 
 
-    fun setUser(context: Context, user: String?) {
-        if (user != null)
-            context.getSharedPreferences(APP_ID, 0).edit().putString(TAG_USER, user).commit()
+    fun setUser(context: Context, user: String?): Boolean {
+        return context.getSharedPreferences(APP_ID, 0).edit().putString(TAG_USER, user).commit()
     }
 
     fun getUser(context: Context): User? {
-        return Gson().fromJson(context.getSharedPreferences(APP_ID, 0).getString(TAG_USER, null), User::class.java)
+        val u = context.getSharedPreferences(APP_ID, 0).getString(TAG_USER, null)
+        if(!TextUtils.isEmpty(u)) {
+            return Gson().fromJson(EncryptTools.aesDecrypt(u, EncryptTools.X), User::class.java)
+        }
+        return null
     }
 
     fun setDevice(context: Context, id: String) {

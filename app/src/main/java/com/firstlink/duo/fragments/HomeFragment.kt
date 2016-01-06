@@ -24,18 +24,19 @@ import kotlin.properties.Delegates
  */
 class HomeFragment : Fragment() {
 
-    var recycler : RecyclerView by Delegates.notNull()
+    var recycler: RecyclerView by Delegates.notNull()
 
-    var adapter : HomeAdapter by Delegates.notNull()
+    var adapter: HomeAdapter by Delegates.notNull()
 
-    var startRow = 0; var pageSize = 20
+    var startRow = 0;
+    var pageSize = 20
 
     var url = ""
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater?.inflate(R.layout.fragment_home, container, false) as SwipeRefreshLayout
         root.setColorSchemeResources(R.color.accent)
-        root.setOnRefreshListener { Handler().postDelayed({root.isRefreshing = false}, 1000) }
+        root.setOnRefreshListener { Handler().postDelayed({ root.isRefreshing = false }, 1000) }
 
         recycler = root.findViewById(R.id.home_recycler) as RecyclerView
         recycler.layoutManager = LinearLayoutManager(activity)
@@ -45,7 +46,7 @@ class HomeFragment : Fragment() {
                 .last(R.drawable.div_home_list).create())
 
         VolleyHelper.call(activity).addPost(UrlSet.FIND_NATIONS, null, HomeListData::class.java, {
-            obj: HomeListData?, urlSet : UrlSet, result: Original ->
+            obj: HomeListData?, urlSet: UrlSet, result: Original ->
             val params = hashMapOf(Pair("start_row", 0), Pair("page_size", 20))
             url = obj!!.list[0].targetUrl
             VolleyHelper.call(activity).addPost(UrlSet.FIND_HOME_DATA, params, HomeListData::class.java, updater)
@@ -53,14 +54,17 @@ class HomeFragment : Fragment() {
 
         return root
     }
-    val updater = fun (obj: HomeListData?, urlSet : UrlSet, result: Original) : Unit{
+
+    val updater = fun(obj: HomeListData?, urlSet: UrlSet, result: Original): Unit {
         when (urlSet) {
             UrlSet.FIND_HOME_DATA -> {
                 obj!!.topicList.map { goods -> goods.displayType = HomeAdapter.TYPE_TOPIC }
                 obj.list.map { goods -> goods.displayType = HomeAdapter.TYPE_NORMAL }
                 var data = arrayListOf<Any>()
-                data.add(fun (): Goods { val temp = Goods(); temp.displayType=HomeAdapter.TYPE_NATION;temp.targetUrl = url; return temp }())
-                data.addAll(obj.topicList)
+                data.add(fun(): Goods {
+                    val temp = Goods(); temp.displayType = HomeAdapter.TYPE_NATION;temp.targetUrl = url; return temp
+                }())
+                data.addAll(if (obj.topicList.size > 3) obj.topicList.subList(0, 3) else obj.topicList)
                 data.addAll(obj.list)
                 adapter = HomeAdapter(activity, data)
                 recycler.adapter = adapter

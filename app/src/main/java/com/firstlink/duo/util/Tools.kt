@@ -13,6 +13,8 @@ import javax.crypto.Cipher
  */
 object Tools {
 
+    val LOGIN_OK= "login_ok"
+
     var DENSITY = 0
 
     val RSA_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDMd0JqoWXhrtOchq6uenZ6mpA6\n" +

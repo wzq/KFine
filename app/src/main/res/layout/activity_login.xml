@@ -12,6 +12,7 @@
         app:met_primaryColor="@color/accent"
         app:met_floatingLabel="highlight"
         android:hint="Telephone"
+        android:inputType="phone"
         android:id="@+id/login_phone"/>
 
     <com.rengwuxian.materialedittext.MaterialEditText
@@ -21,6 +22,7 @@
         app:met_primaryColor="@color/accent"
         app:met_floatingLabel="highlight"
         android:hint="Password"
+        android:inputType="textPassword"
         android:id="@+id/login_password"/>
 
 

@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat
 import android.widget.ImageView
 import com.amulyakhare.textdrawable.TextDrawable
 import com.firstlink.duo.R
+import com.firstlink.duo.util.PreferenceTools
 
 /**
  * Created by wzq on 15/12/22.
