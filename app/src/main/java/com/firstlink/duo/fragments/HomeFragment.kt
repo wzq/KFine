@@ -43,6 +43,7 @@ class HomeFragment : Fragment() {
         recycler.addItemDecoration(VerticalItemDecoration.Builder(activity)
                 .type(HomeAdapter.TYPE_NORMAL, R.drawable.div_home_list)
                 .type(HomeAdapter.TYPE_TOPIC, R.drawable.div_home_list)
+                .type(HomeAdapter.TYPE_TAG, R.drawable.div_home_list)
                 .last(R.drawable.div_home_list).create())
 
         VolleyHelper.call(activity).addPost(UrlSet.FIND_NATIONS, null, HomeListData::class.java, {
@@ -64,7 +65,10 @@ class HomeFragment : Fragment() {
                 data.add(fun(): Goods {
                     val temp = Goods(); temp.displayType = HomeAdapter.TYPE_NATION;temp.targetUrl = url; return temp
                 }())
+                data.add(fun ():Goods{val temp = Goods(); temp.title = "专题活动"; temp.displayType = HomeAdapter.TYPE_TAG; return temp}())
                 data.addAll(if (obj.topicList.size > 3) obj.topicList.subList(0, 3) else obj.topicList)
+
+                data.add(fun ():Goods{val temp = Goods(); temp.title = "精品推荐"; temp.displayType = HomeAdapter.TYPE_TAG; return temp}())
                 data.addAll(obj.list)
                 adapter = HomeAdapter(activity, data)
                 recycler.adapter = adapter

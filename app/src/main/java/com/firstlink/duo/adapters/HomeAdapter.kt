@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
+import com.firstlink.duo.BuildConfig
 import com.firstlink.duo.R
 import com.firstlink.duo.activities.BaseActivity
 import com.firstlink.duo.activities.DetailActivity
@@ -34,6 +35,7 @@ class HomeAdapter(context: Context?, data: List<Any>?) : RecyclerView.Adapter<Re
         val TYPE_NORMAL = 0
         val TYPE_TOPIC = 1
         val TYPE_NATION = 2
+        val TYPE_TAG = 3
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
@@ -67,6 +69,14 @@ class HomeAdapter(context: Context?, data: List<Any>?) : RecyclerView.Adapter<Re
                     }
                 }
             }
+            is TagViewHolder -> {
+                if(item is Goods){
+                    holder.title.text = item.title
+                    holder.more.setOnClickListener({
+                        context.startActivity(Intent(context, WebActivity::class.java).putExtra("web_url", "${ BuildConfig.HTML_HOST}mobile/product/topic_list.html?origin=1"))
+                    })
+                }
+            }
 
         }
     }
@@ -80,6 +90,7 @@ class HomeAdapter(context: Context?, data: List<Any>?) : RecyclerView.Adapter<Re
             TYPE_NORMAL -> return NormalViewHolder(LayoutInflater.from(parent?.context).inflate(R.layout.item_home, parent, false))
             TYPE_TOPIC -> return TopicViewHolder(LayoutInflater.from(parent?.context).inflate(R.layout.item_home_topic, parent, false))
             TYPE_NATION -> return NationViewHolder(LayoutInflater.from(parent?.context).inflate(R.layout.item_home_nation, parent, false))
+            TYPE_TAG -> return TagViewHolder(LayoutInflater.from(parent?.context).inflate(R.layout.item_home_tag, parent, false))
             else -> return null
         }
 
@@ -100,7 +111,7 @@ class HomeAdapter(context: Context?, data: List<Any>?) : RecyclerView.Adapter<Re
 
     override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder?) {
         super.onViewAttachedToWindow(holder)
-        if (holder?.itemViewType != TYPE_NATION) {
+        if (holder?.itemViewType != TYPE_NATION && holder?.itemViewType != TYPE_TAG) {
             holder?.itemView?.clearAnimation()
             if (holder?.layoutPosition!! > lastPosition) {
                 val animBottom = AnimationUtils.loadAnimation(holder?.itemView!!.context, R.anim.bottom_in)
@@ -147,5 +158,10 @@ class HomeAdapter(context: Context?, data: List<Any>?) : RecyclerView.Adapter<Re
 
     inner class NationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val flags = arrayOf(itemView.findViewById(R.id.home_nation_jp), itemView.findViewById(R.id.home_nation_us))
+    }
+
+    inner class TagViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+        val title = itemView.findViewById(R.id.home_tag_title) as TextView
+        val more = itemView.findViewById(R.id.home_tag_more) as TextView
     }
 }
