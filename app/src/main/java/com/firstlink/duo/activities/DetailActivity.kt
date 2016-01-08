@@ -12,7 +12,6 @@ import android.widget.ImageView
 import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.firstlink.duo.R
 import com.firstlink.duo.model.vo.DetailData
-import com.firstlink.duo.util.Tools
 import com.firstlink.duo.util.network.Original
 import com.firstlink.duo.util.network.UrlSet
 import com.firstlink.duo.util.network.VolleyHelper
@@ -69,9 +68,9 @@ class DetailActivity : BaseActivity() {
         val images = arrayListOf<ImageView>()
         for (item in data!!.post.itemPics) {
             val image = ImageView(this@DetailActivity)
-            image.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+            image.layoutParams = p
             image.scaleType = ImageView.ScaleType.FIT_CENTER
-            Picasso.with(this).load(Tools.cdn1(item.picUrl, p.width, p.height)).into(image)
+            Picasso.with(this).load(item.picUrl).into(image)// into ${@link Target} object can get bitmap
             images.add(image)
         }
         pager?.adapter = DetailAdapter(images)

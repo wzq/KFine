@@ -3,9 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray_100"
-    android:id="@+id/home_swipe">
+    android:id="@+id/topic_swipe">
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/home_recycler"
+        android:id="@+id/topic_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

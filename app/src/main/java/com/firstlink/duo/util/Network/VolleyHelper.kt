@@ -41,7 +41,7 @@ class VolleyHelper {
         addRequest(object : StringRequest(Request.Method.POST, urlSet.url, Response.Listener { s ->
             val response = JSONObject(s)
             val original = Original(response.getInt("code"), response.getString("data"), response.getString("message"))
-            Log.d("HttpResponse", original.data)
+            Log.d("HttpResponse", "${urlSet.name} -> ${original.data}")
             if (clazz != null && original.code == 1) {
                 callback(Gson().fromJson(original.data, clazz), urlSet, original)
             } else {
@@ -50,11 +50,12 @@ class VolleyHelper {
 
         }, Response.ErrorListener { error -> error.printStackTrace() }) {
             override fun getParams(): MutableMap<String, String>? {
-                val map = getHeadParams(context)
+                val map = hashMapOf<String, String>()
+                map.putAll(getHeadParams(context));
                 if (urlSet.key != null) {
                     map.put(urlSet.key!!, Gson().toJson(params))
                 }
-                d("HttpRequest", map.toString())
+                d("HttpRequest", "${urlSet.name} -> ${map.toString()}")
                 return map
             }
         })

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.firstlink.duo.widget.Explosion;
+package com.firstlink.duo.widget.explosion;
 
 
 import android.content.res.Resources;

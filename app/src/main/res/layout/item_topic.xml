@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@android:color/white"
+    app:cardPreventCornerOverlap="true">
+
+    <com.balysv.materialripple.MaterialRippleLayout
+        android:id="@+id/ripple"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:mrl_rippleAlpha="0.1"
+        app:mrl_rippleColor="@color/accent"
+        app:mrl_rippleDelayClick="false"
+        app:mrl_rippleFadeDuration="150"
+        app:mrl_rippleDuration="500"
+        app:mrl_rippleOverlay = "true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/topic_pic"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:scaleType="fitCenter"/>
+
+            <TextView
+                android:id="@+id/topic_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:textColor="@color/primary_text"
+                android:textSize="14sp"
+                android:lines="2"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:layout_below="@+id/topic_pic"
+                tools:text="测试" />
+
+            <TextView
+                android:id="@+id/topic_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="12dp"
+                android:layout_below="@+id/topic_title"
+                android:textSize="12sp"
+                android:textColor="@color/secondary_text"
+                tools:text="测试" />
+
+            <TextView
+                android:id="@+id/topic_source"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:layout_alignBottom="@+id/topic_price"
+                android:layout_alignParentRight="true"
+                android:textSize="12sp"
+                android:textColor="@color/secondary_text"
+                tools:text="测试" />
+        </RelativeLayout>
+
+
+    </com.balysv.materialripple.MaterialRippleLayout>
+
+</android.support.v7.widget.CardView>

@@ -16,7 +16,8 @@
         app:mrl_rippleAlpha="0.1"
         app:mrl_rippleColor="@color/accent"
         app:mrl_rippleFadeDuration="75"
-        app:mrl_rippleDelayClick="false">
+        app:mrl_rippleDelayClick="false"
+        app:mrl_rippleOverlay="true">
 
 
         <RelativeLayout

@@ -16,6 +16,7 @@ import com.firstlink.duo.BuildConfig
 import com.firstlink.duo.R
 import com.firstlink.duo.activities.BaseActivity
 import com.firstlink.duo.activities.DetailActivity
+import com.firstlink.duo.activities.TopicActivity
 import com.firstlink.duo.activities.WebActivity
 import com.firstlink.duo.model.Goods
 import com.firstlink.duo.util.Tools
@@ -52,7 +53,9 @@ class HomeAdapter(context: Context?, data: List<Any>?) : RecyclerView.Adapter<Re
                     holder.source.text = item.source
                     holder.ripple.setOnClickListener({
                         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(context, holder.picture, "image");
-                        ActivityCompat.startActivity(context, Intent(context, DetailActivity::class.java).putExtra("id", item.id).putExtra("uid", item.user_id), options.toBundle());
+                        ActivityCompat.startActivity(context, Intent(context, DetailActivity::class.java)
+                                .putExtra("id", item.id).putExtra("uid", item.user_id)
+                                .putExtra("image_url", item.indexPic), options.toBundle());
                     })
                 }
 
@@ -60,6 +63,7 @@ class HomeAdapter(context: Context?, data: List<Any>?) : RecyclerView.Adapter<Re
             is TopicViewHolder -> {
                 if (item is Goods) {
                     Picasso.with(context).load(Tools.cdn1(item.picUrl, holder.w, holder.h)).into(holder.picture)
+                    holder.picture.setOnClickListener({ context.startActivity(Intent(context, TopicActivity::class.java).putExtra("tid", item.id)) })
                 }
             }
             is NationViewHolder -> {
@@ -114,11 +118,11 @@ class HomeAdapter(context: Context?, data: List<Any>?) : RecyclerView.Adapter<Re
         if (holder?.itemViewType != TYPE_NATION && holder?.itemViewType != TYPE_TAG) {
             holder?.itemView?.clearAnimation()
             if (holder?.layoutPosition!! > lastPosition) {
-                val animBottom = AnimationUtils.loadAnimation(holder?.itemView!!.context, R.anim.bottom_in)
-                holder?.itemView!!.startAnimation(animBottom)
+                val animBottom = AnimationUtils.loadAnimation(holder?.itemView?.context, R.anim.bottom_in)
+                holder?.itemView?.startAnimation(animBottom)
             } else if (holder?.layoutPosition!! < lastPosition) {
-                val animLeft = AnimationUtils.loadAnimation(holder?.itemView!!.context, R.anim.top_in)
-                holder?.itemView!!.startAnimation(animLeft)
+                val animLeft = AnimationUtils.loadAnimation(holder?.itemView?.context, R.anim.top_in)
+                holder?.itemView?.startAnimation(animLeft)
             }
             lastPosition = holder?.layoutPosition ?: -1
         }
@@ -141,9 +145,7 @@ class HomeAdapter(context: Context?, data: List<Any>?) : RecyclerView.Adapter<Re
 
     inner class TopicViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val picture = itemView.findViewById(R.id.topic_pic) as ImageView
-
         val w : Int
-
         val h : Int
 
         init {

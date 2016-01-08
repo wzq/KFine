@@ -65,7 +65,7 @@ object Tools {
         if (publicKey == null) {
             return byteArrayOf()
         }
-        var cipher: Cipher? = null
+        var cipher: Cipher?
         try {
             cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding")
             cipher!!.init(Cipher.ENCRYPT_MODE, publicKey)
