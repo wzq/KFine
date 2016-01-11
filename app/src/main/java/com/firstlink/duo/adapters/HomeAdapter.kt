@@ -76,7 +76,7 @@ class HomeAdapter(context: Context?, data: List<Any>?) : RecyclerView.Adapter<Re
             is TagViewHolder -> {
                 if(item is Goods){
                     holder.title.text = item.title
-                    holder.more.setOnClickListener({
+                    holder.itemView.setOnClickListener({
                         context.startActivity(Intent(context, WebActivity::class.java).putExtra("web_url", "${ BuildConfig.HTML_HOST}mobile/product/topic_list.html?origin=1"))
                     })
                 }
