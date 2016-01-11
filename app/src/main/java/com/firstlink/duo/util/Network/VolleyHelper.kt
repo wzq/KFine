@@ -10,6 +10,7 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.firstlink.duo.App
 import com.firstlink.duo.BuildConfig
 import com.firstlink.duo.model.User
 import com.firstlink.duo.util.Extensions.d
@@ -23,12 +24,9 @@ import java.util.*
  */
 class VolleyHelper {
 
-    val context: Context
-
-    private constructor(context: Context) {
-        this.context = context
+    private constructor() {
         if (queue == null) {
-            queue = Volley.newRequestQueue(context, OkHttpStack())
+            queue = Volley.newRequestQueue(App.instance, OkHttpStack())
         }
     }
 
@@ -51,7 +49,7 @@ class VolleyHelper {
         }, Response.ErrorListener { error -> error.printStackTrace() }) {
             override fun getParams(): MutableMap<String, String>? {
                 val map = hashMapOf<String, String>()
-                map.putAll(getHeadParams(context));
+                map.putAll(headParams!!);
                 if (urlSet.key != null) {
                     map.put(urlSet.key!!, Gson().toJson(params))
                 }
@@ -87,27 +85,26 @@ class VolleyHelper {
 
         private var helper: VolleyHelper? = null
 
-        fun call(context: Context): VolleyHelper {
+        fun call(): VolleyHelper {
             if (helper == null) {
-                helper = VolleyHelper(context)
+                helper = VolleyHelper()
             }
             return helper!!
         }
 
         var headParams: MutableMap<String, String>? = null
-
-        fun getHeadParams(context: Context): MutableMap<String, String> {
-            if (headParams == null) {
-                d("init head params")
-                headParams = hashMapOf<String, String>()
-                headParams?.put("d_id", getDeviceId(context))
-                headParams?.put("ts", System.currentTimeMillis().toString())
-                headParams?.put("p", "a")
-                headParams?.put("ver", BuildConfig.VERSION_NAME)
-                headParams?.put("c_id", BuildConfig.UMENG_CHANNEL)
+            get() {
+                if (headParams == null) {
+                    d("init head params")
+                    headParams = hashMapOf<String, String>()
+                    headParams?.put("d_id", getDeviceId())
+                    headParams?.put("ts", System.currentTimeMillis().toString())
+                    headParams?.put("p", "a")
+                    headParams?.put("ver", BuildConfig.VERSION_NAME)
+                    headParams?.put("c_id", BuildConfig.UMENG_CHANNEL)
+                }
+                return headParams
             }
-            return headParams!!
-        }
 
         fun updateHeadParams(user: User?) {
             if(user != null) {
@@ -119,11 +116,11 @@ class VolleyHelper {
             }
         }
 
-        fun getDeviceId(context: Context): String {
-            var did: String? = PreferenceTools.getDevice(context)
+        fun getDeviceId(): String {
+            var did: String? = PreferenceTools.getDevice()
             if (TextUtils.isEmpty(did)) {
                 try {
-                    val telephonyManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager?
+                    val telephonyManager = App.instance?.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager?
                     did = telephonyManager?.deviceId ?: null
                 } catch (e: Exception) {
                 }
@@ -131,7 +128,7 @@ class VolleyHelper {
             if (TextUtils.isEmpty(did)) {
                 did = UUID.randomUUID().toString()
             }
-            PreferenceTools.setDevice(context, did!!)
+            PreferenceTools.setDevice(did!!)
             return did
         }
     }
