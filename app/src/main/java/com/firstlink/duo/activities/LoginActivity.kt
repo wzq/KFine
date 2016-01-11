@@ -35,10 +35,10 @@ class LoginActivity : BaseActivity(){
             val params = hashMapOf<String, String>()
             params.put("mobile", phone.text.toString())
             params.put("password", Tools.getEncrypy(password.text.toString().trim())!!)
-            params.put("d_id", VolleyHelper.getDeviceId(this@LoginActivity))
+            params.put("d_id", VolleyHelper.getDeviceId())
             params.put("p", "a")
             params.put("en_m", "RSA")
-            VolleyHelper.call(this).addPost(UrlSet.LOGIN, params, LoginResult::class.java, updater)
+            VolleyHelper.call().addPost(UrlSet.LOGIN, params, LoginResult::class.java, updater)
         })
 
 
@@ -47,7 +47,7 @@ class LoginActivity : BaseActivity(){
 
     val updater = fun (result: LoginResult?, urlSet : UrlSet, original: Original) : Unit{
         if(original.code == 1){
-            if(PreferenceTools.setUser(this@LoginActivity, EncryptTools.aesEncrypt(Gson().toJson(result?.user), EncryptTools.X))) {
+            if(PreferenceTools.setUser(EncryptTools.aesEncrypt(Gson().toJson(result?.user), EncryptTools.X))) {
                 VolleyHelper.updateHeadParams(result?.user)
                 sendBroadcast(Intent().setAction(Tools.LOGIN_OK))
                 finish()

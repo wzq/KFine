@@ -35,7 +35,7 @@ class TopicFragment : Fragment(){
         recycler.addItemDecoration(GridItemDecoration(8f, activity))
 
         val params = hashMapOf(Pair("start_row", 0), Pair("page_size", 20), Pair("id", activity.intent.getIntExtra("tid", 0)))
-        VolleyHelper.call(activity).addPost(UrlSet.FIND_TOPICS, params, TopicData::class.java, {
+        VolleyHelper.call().addPost(UrlSet.FIND_TOPICS, params, TopicData::class.java, {
             obj: TopicData?, urlSet: UrlSet, original: Original ->
             activity.title = obj?.topic?.name
             recycler.adapter = TopicAdapter(activity, obj?.list)

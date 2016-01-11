@@ -1,7 +1,7 @@
 package com.firstlink.duo.util
 
-import android.content.Context
 import android.text.TextUtils
+import com.firstlink.duo.App
 import com.firstlink.duo.BuildConfig
 import com.firstlink.duo.model.User
 import com.google.gson.Gson
@@ -13,28 +13,27 @@ object PreferenceTools {
 
     val APP_ID = BuildConfig.APPLICATION_ID
 
-    val TAG_USER = "user"
-    val TAG_DEVICE = "device"
+    val TAG_USER = "duo_user"
+    val TAG_DEVICE = "duo_device"
 
-
-    fun setUser(context: Context, user: String?): Boolean {
-        return context.getSharedPreferences(APP_ID, 0).edit().putString(TAG_USER, user).commit()
+    fun setUser(user: String?): Boolean {
+        return App.instance?.getSharedPreferences(APP_ID, 0)?.edit()?.putString(TAG_USER, user)?.commit() ?: false
     }
 
-    fun getUser(context: Context): User? {
-        val u = context.getSharedPreferences(APP_ID, 0).getString(TAG_USER, null)
+    fun getUser(): User? {
+        val u = App.instance?.getSharedPreferences(APP_ID, 0)?.getString(TAG_USER, null)
         if(!TextUtils.isEmpty(u)) {
-            return Gson().fromJson(EncryptTools.aesDecrypt(u, EncryptTools.X), User::class.java)
+            return Gson().fromJson(EncryptTools.aesDecrypt(u!!, EncryptTools.X), User::class.java)
         }
         return null
     }
 
-    fun setDevice(context: Context, id: String) {
-        context.getSharedPreferences(APP_ID, 0).edit().putString(TAG_DEVICE, id).commit()
+    fun setDevice(id: String): Boolean{
+        return App.instance?.getSharedPreferences(APP_ID, 0)?.edit()?.putString(TAG_DEVICE, id)?.commit() ?: false
     }
 
-    fun getDevice(context: Context): String? {
-        return context.getSharedPreferences(APP_ID, 0).getString(TAG_DEVICE, null)
+    fun getDevice(): String? {
+        return App.instance?.getSharedPreferences(APP_ID, 0)?.getString(TAG_DEVICE, null)
     }
 
 }

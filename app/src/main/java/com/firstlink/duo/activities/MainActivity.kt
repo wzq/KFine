@@ -43,7 +43,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         
         userPicture = navigationView.getHeaderView(0).findViewById(R.id.user_head) as CircleImageView
         userName = navigationView.getHeaderView(0).findViewById(R.id.user_name) as TextView
-        val user =  PreferenceTools.getUser(this@MainActivity)
+        val user =  PreferenceTools.getUser()
         if(user == null) {
             navigationView.getHeaderView(0).setOnClickListener({ startActivity(Intent(this@MainActivity, LoginActivity::class.java)) })
         }else {
@@ -61,7 +61,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     val receiver = object: BroadcastReceiver(){
         override fun onReceive(p0: Context?, p1: Intent?) {
-            val user =  PreferenceTools.getUser(this@MainActivity)
+            val user =  PreferenceTools.getUser()
             if(user!=null){
                 runOnUiThread({
                     Picasso.with(this@MainActivity).load(user.headUrl).into(userPicture)

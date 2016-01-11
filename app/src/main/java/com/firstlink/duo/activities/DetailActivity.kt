@@ -46,7 +46,7 @@ class DetailActivity : BaseActivity() {
         val params = hashMapOf<String, String>()
         params.put("id", "${intent.getIntExtra("id", 0)}")
         params.put("user_id", "${intent.getIntExtra("uid", 0)}")
-        VolleyHelper.call(this).addPost(UrlSet.FIND_GOODS_DETAIL, params, DetailData::class.java, updater)
+        VolleyHelper.call().addPost(UrlSet.FIND_GOODS_DETAIL, params, DetailData::class.java, updater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

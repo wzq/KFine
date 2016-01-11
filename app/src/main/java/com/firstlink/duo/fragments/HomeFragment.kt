@@ -46,11 +46,11 @@ class HomeFragment : Fragment() {
                 .type(HomeAdapter.TYPE_TAG, R.drawable.div_home_list)
                 .last(R.drawable.div_home_list).create())
 
-        VolleyHelper.call(activity).addPost(UrlSet.FIND_NATIONS, null, HomeListData::class.java, {
+        VolleyHelper.call().addPost(UrlSet.FIND_NATIONS, null, HomeListData::class.java, {
             obj: HomeListData?, urlSet: UrlSet, result: Original ->
             val params = hashMapOf(Pair("start_row", 0), Pair("page_size", 20))
             url = obj!!.list[0].targetUrl
-            VolleyHelper.call(activity).addPost(UrlSet.FIND_HOME_DATA, params, HomeListData::class.java, updater)
+            VolleyHelper.call().addPost(UrlSet.FIND_HOME_DATA, params, HomeListData::class.java, updater)
         })
 
         return root
