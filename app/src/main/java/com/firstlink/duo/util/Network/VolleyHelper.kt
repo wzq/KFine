@@ -49,7 +49,7 @@ class VolleyHelper {
         }, Response.ErrorListener { error -> error.printStackTrace() }) {
             override fun getParams(): MutableMap<String, String>? {
                 val map = hashMapOf<String, String>()
-                map.putAll(headParams!!);
+                map.putAll(findHeadParams()!!);
                 if (urlSet.key != null) {
                     map.put(urlSet.key!!, Gson().toJson(params))
                 }
@@ -93,24 +93,26 @@ class VolleyHelper {
         }
 
         var headParams: MutableMap<String, String>? = null
-            get() {
-                if (headParams == null) {
-                    d("init head params")
-                    headParams = hashMapOf<String, String>()
-                    headParams?.put("d_id", getDeviceId())
-                    headParams?.put("ts", System.currentTimeMillis().toString())
-                    headParams?.put("p", "a")
-                    headParams?.put("ver", BuildConfig.VERSION_NAME)
-                    headParams?.put("c_id", BuildConfig.UMENG_CHANNEL)
-                }
-                return headParams
+
+
+        fun findHeadParams(): MutableMap<String, String>? {
+            if (headParams == null) {
+                d("init head params")
+                headParams = hashMapOf<String, String>()
+                headParams?.put("d_id", getDeviceId())
+                headParams?.put("ts", System.currentTimeMillis().toString())
+                headParams?.put("p", "a")
+                headParams?.put("ver", BuildConfig.VERSION_NAME)
+                headParams?.put("c_id", BuildConfig.UMENG_CHANNEL)
             }
+            return headParams
+        }
 
         fun updateHeadParams(user: User?) {
-            if(user != null) {
+            if (user != null) {
                 headParams?.put("u_id", user.id.toString());
                 headParams?.put("tk", user.token);
-            }else{
+            } else {
                 headParams?.remove("u_id")
                 headParams?.remove("tk")
             }
