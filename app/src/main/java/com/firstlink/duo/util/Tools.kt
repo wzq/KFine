@@ -38,7 +38,7 @@ object Tools {
         return url.plus("@${w}w_${h}h_1e_1c_${DENSITY}x_1o")
     }
 
-    fun cdn1(url : String, w : Int, h : Int) : String{
+    fun cdn1(url : String?, w : Int?, h : Int?) : String{
         return url.plus("@${w}w_${h}h_1e_1c_1x_1o")
     }
 

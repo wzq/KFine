@@ -75,6 +75,8 @@ data class Post(
         @SerializedName("limited_num")
         var limitedNum: Int = 0,
 
+        val name: String,
+
         //@SerializedName("post_authority_attribute")
         //var postAuthorityAttr: PostAuthorityAttr
         //
