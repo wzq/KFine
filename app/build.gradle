@@ -14,12 +14,10 @@ android {
         buildConfigField "String", "UMENG_CHANNEL", '"1"'
         buildConfigField "String", "HOST", '"http://api.fine3q.com/link-site/api/"'
         buildConfigField "String", "HTML_HOST", '"http://api.fine3q.com/link-site/"'
-//        buildConfigField "String", "HOST", '"http://112.124.40.161/link-site/api/"'
-//        buildConfigField "String", "HTML_HOST", '"http://dev.fine3q.com/link-site/"'
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
