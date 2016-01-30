@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.firstlink.duo.R
 import com.firstlink.duo.adapters.TopicAdapter
+import com.firstlink.duo.model.Topic
 import com.firstlink.duo.model.vo.TopicData
 import com.firstlink.duo.util.network.Original
 import com.firstlink.duo.util.network.UrlSet
@@ -29,16 +30,25 @@ class TopicFragment : Fragment(){
         val root = inflater?.inflate(R.layout.fragment_topic, container, false) as SwipeRefreshLayout
         root.setColorSchemeResources(R.color.accent)
         root.setOnRefreshListener { Handler().postDelayed({ root.isRefreshing = false }, 1000) }
+        val list = arrayListOf<Any?>();
 
         recycler = root.findViewById(R.id.topic_recycler) as RecyclerView
-        recycler.layoutManager = GridLayoutManager(activity, 2)
-        recycler.addItemDecoration(GridItemDecoration(8f, activity))
+        val g = GridLayoutManager(activity, 2)
+        recycler.layoutManager = g
+        recycler.addItemDecoration(GridItemDecoration(8f, activity, 0))
+        g.spanSizeLookup = object: GridLayoutManager.SpanSizeLookup(){
+            override fun getSpanSize(position: Int): Int {
+                if(list[position] is Topic) return 2 else return 1
+            }
+
+        }
 
         val params = hashMapOf(Pair("start_row", 0), Pair("page_size", 20), Pair("id", activity.intent.getIntExtra("tid", 0)))
         VolleyHelper.call().addPost(UrlSet.FIND_TOPICS, params, TopicData::class.java, {
             obj: TopicData?, urlSet: UrlSet, original: Original ->
             activity.title = obj?.topic?.name
-            recycler.adapter = TopicAdapter(activity, obj?.list)
+            list.addAll(obj?.list!!)
+            recycler.adapter = TopicAdapter(activity, list)
         })
         return root
     }

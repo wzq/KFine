@@ -8,8 +8,9 @@ import android.support.v7.widget.StaggeredGridLayoutManager
 import android.util.TypedValue
 import android.view.View
 
-class GridItemDecoration(f: Float, context: Context) : RecyclerView.ItemDecoration() {
+class GridItemDecoration(f: Float, context: Context, val offset: Int) : RecyclerView.ItemDecoration() {
     val div: Int
+
 
     init {
         div = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, f, context.resources.displayMetrics).toInt()
@@ -25,9 +26,12 @@ class GridItemDecoration(f: Float, context: Context) : RecyclerView.ItemDecorati
             else -> 0
         }
         val position = parent.getChildAdapterPosition(view)
-        if (position < rowNum) outRect.top = div
-        outRect.left = when ((position + 1) % rowNum) { 1 -> div else -> 0
-        }
+        if (offset>0&& position == 0) outRect.top = div
+        if (offset == 0 && position < rowNum) outRect.top = div
+
+        outRect.left = when ((position + 1 + offset) % rowNum) { 1 -> div else -> {
+            if (position < offset) div else 0
+        } }
     }
 
 }
