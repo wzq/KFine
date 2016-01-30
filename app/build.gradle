@@ -11,10 +11,21 @@ android {
         targetSdkVersion 23
         versionCode 100016
         versionName "1.1.4"
+        signingConfig signingConfigs.debug
         buildConfigField "String", "UMENG_CHANNEL", '"1"'
         buildConfigField "String", "HOST", '"http://api.fine3q.com/link-site/api/"'
         buildConfigField "String", "HTML_HOST", '"http://api.fine3q.com/link-site/"'
     }
+
+    signingConfigs {
+        debug {
+            keyAlias 'firstlink'
+            keyPassword '123456'
+            storeFile file('/Users/wzq/Documents/git/KFine/fine.jks')
+            storePassword '123456'
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled true
