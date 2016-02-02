@@ -35,7 +35,7 @@ class TopicFragment : Fragment(){
         recycler = root.findViewById(R.id.topic_recycler) as RecyclerView
         val g = GridLayoutManager(activity, 2)
         recycler.layoutManager = g
-        recycler.addItemDecoration(GridItemDecoration(8f, activity, 0))
+        recycler.addItemDecoration(GridItemDecoration(8f))
         g.spanSizeLookup = object: GridLayoutManager.SpanSizeLookup(){
             override fun getSpanSize(position: Int): Int {
                 if(list[position] is Topic) return 2 else return 1

@@ -1,24 +1,26 @@
 package com.firstlink.duo.widget.decorations
 
-import android.content.Context
 import android.graphics.Rect
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.util.TypedValue
 import android.view.View
+import com.firstlink.duo.App
 
-class GridItemDecoration(f: Float, context: Context, val offset: Int) : RecyclerView.ItemDecoration() {
+class GridItemDecoration(f: Float) : RecyclerView.ItemDecoration() {
     val div: Int
 
 
     init {
-        div = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, f, context.resources.displayMetrics).toInt()
+        div = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, f, App.instance?.resources?.displayMetrics).toInt()
     }
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State?) {
-        outRect.bottom = div
-        outRect.right = div
+
+        outRect.bottom = div / 2
+        outRect.top = div / 2
+
         val lm = parent.layoutManager
         val rowNum = when (lm) {
             is GridLayoutManager -> lm.spanCount
@@ -26,12 +28,17 @@ class GridItemDecoration(f: Float, context: Context, val offset: Int) : Recycler
             else -> 0
         }
         val position = parent.getChildAdapterPosition(view)
-        if (offset>0&& position == 0) outRect.top = div
-        if (offset == 0 && position < rowNum) outRect.top = div
 
-        outRect.left = when ((position + 1 + offset) % rowNum) { 1 -> div else -> {
-            if (position < offset) div else 0
-        } }
+        when (position % rowNum) {
+            0 -> {
+                outRect.left = div
+                outRect.right = div/2
+            }
+            1 -> {
+                outRect.right = div
+                outRect.left = div/2
+            }
+        }
     }
 
 }
