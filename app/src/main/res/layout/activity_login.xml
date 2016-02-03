@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         app:met_primaryColor="@color/accent"
         app:met_floatingLabel="highlight"
+        app:met_clearButton="true"
         android:hint="Telephone"
         android:inputType="phone"
         android:id="@+id/login_phone"/>
@@ -21,6 +22,7 @@
         android:layout_marginTop="8dp"
         app:met_primaryColor="@color/accent"
         app:met_floatingLabel="highlight"
+        app:met_clearButton="true"
         android:hint="Password"
         android:inputType="textPassword"
         android:id="@+id/login_password"/>
