@@ -23,7 +23,7 @@ class LoginActivity : BaseActivity(){
         super.onCreate(savedInstanceState)
         title = "Sign In"
         initRootView(R.layout.activity_login)
-        supportActionBar.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         baseProgress.visibility = View.GONE
 

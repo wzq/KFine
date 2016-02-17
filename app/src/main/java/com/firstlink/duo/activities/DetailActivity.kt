@@ -22,7 +22,7 @@ class DetailActivity : BaseActivity() {
         }
         baseToolBar.setBackgroundColor(color)
 
-        supportActionBar.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         supportFragmentManager.beginTransaction().replace(R.id.detail_container, DetailFragment()).commit()
 

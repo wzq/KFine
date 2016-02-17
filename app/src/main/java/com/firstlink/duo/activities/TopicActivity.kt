@@ -14,7 +14,7 @@ class TopicActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         initRootView(R.layout.activity_topic)
         supportFragmentManager.beginTransaction().replace(R.id.topic_container, TopicFragment()).commit()
-        supportActionBar.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
 

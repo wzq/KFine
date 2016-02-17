@@ -18,7 +18,7 @@ class WebActivity : BaseActivity(){
         super.onCreate(savedInstanceState)
         initRootView(R.layout.activity_web)
 
-        supportActionBar.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val webView = findViewById(R.id.web_view) as WebView
         val progress = findViewById(R.id.web_progress) as ProgressBar
 
