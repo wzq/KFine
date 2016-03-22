@@ -17,6 +17,11 @@ import com.firstlink.duo.R
 import com.firstlink.duo.fragments.HomeFragment
 import com.firstlink.duo.util.PreferenceTools
 import com.firstlink.duo.util.Tools
+import com.lapism.searchview.adapter.SearchAdapter
+import com.lapism.searchview.adapter.SearchItem
+import com.lapism.searchview.history.SearchHistoryTable
+import com.lapism.searchview.view.SearchCodes
+import com.lapism.searchview.view.SearchView
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlin.properties.Delegates
@@ -26,9 +31,25 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     var userPicture by Delegates.notNull<CircleImageView>()
     var userName by Delegates.notNull<TextView>()
 
+    lateinit var searchView: SearchView
+    val searchHistory = SearchHistoryTable(this);
+
+    val historyList = arrayListOf<SearchItem>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        searchView = findViewById(R.id.search_view) as SearchView
+        searchView.setOnQueryTextListener(searchListener)
+        val searchAdapter = SearchAdapter(this, arrayListOf<SearchItem>(), historyList, SearchCodes.THEME_LIGHT)
+        searchAdapter.setOnItemClickListener { view, position ->
+            searchView.hide(false)
+            searchHistory.addItem(SearchItem((view.findViewById(R.id.textView_item_text) as TextView).text))
+            println("p-$position")
+        }
+        searchView.setAdapter(searchAdapter)
+
+
         val toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
 
@@ -58,6 +79,18 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         registerReceiver(receiver, filter);
     }
 
+    val searchListener = object : SearchView.OnQueryTextListener{
+        override fun onQueryTextChange(newText: String?): Boolean { return false }
+
+        override fun onQueryTextSubmit(query: String?): Boolean {
+            searchView.hide(false)
+            searchHistory.addItem(SearchItem(query))
+            println(query)
+            return false
+        }
+
+    }
+
 
     val receiver = object: BroadcastReceiver(){
         override fun onReceive(p0: Context?, p1: Intent?) {
@@ -84,7 +117,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId){
-            R.id.action_search ->{ println("searching") }
+            R.id.action_search ->{
+                historyList.clear()
+                historyList.addAll(searchHistory.allItems)
+                searchView.show(true)
+            }
             R.id.action_message -> { println("message") }
         }
         return super.onOptionsItemSelected(item)

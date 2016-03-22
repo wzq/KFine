@@ -24,6 +24,15 @@
 
     </android.support.design.widget.CoordinatorLayout>
 
+    <com.lapism.searchview.view.SearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:search_version="menu_item"
+        app:search_style="menu_item_color"
+        app:search_theme="light"
+        app:search_voice="false"/>
+
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"

@@ -31,7 +31,7 @@ class VolleyHelper {
     }
 
     private fun addRequest(request: Request<*>) {
-        request.setRetryPolicy(DefaultRetryPolicy(TIMEOUT, RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT))
+        request.retryPolicy = DefaultRetryPolicy(TIMEOUT, RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
         queue?.add(request)
     }
 

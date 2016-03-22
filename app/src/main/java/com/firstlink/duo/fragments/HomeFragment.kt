@@ -59,19 +59,25 @@ class HomeFragment : Fragment() {
     val updater = fun(obj: HomeListData?, urlSet: UrlSet, result: Original): Unit {
         when (urlSet) {
             UrlSet.FIND_HOME_DATA -> {
-                obj!!.topicList.map { goods -> goods.displayType = HomeAdapter.TYPE_TOPIC }
-                obj.list.map { goods -> goods.displayType = HomeAdapter.TYPE_NORMAL }
-                var data = arrayListOf<Any>()
-                data.add(fun(): Goods {
-                    val temp = Goods(); temp.displayType = HomeAdapter.TYPE_NATION;temp.targetUrl = url; return temp
-                }())
-                data.add(fun ():Goods{val temp = Goods(); temp.title = "专题活动"; temp.displayType = HomeAdapter.TYPE_TAG; return temp}())
-                data.addAll(if (obj.topicList.size > 3) obj.topicList.subList(0, 3) else obj.topicList)
+                if (obj != null) {
+                    obj.topicList?.map { goods -> goods.displayType = HomeAdapter.TYPE_TOPIC }
+                    obj.list?.map { goods -> goods.displayType = HomeAdapter.TYPE_NORMAL }
+                    var data = arrayListOf<Any>()
+                    data.add(fun(): Goods {
+                        val temp = Goods(); temp.displayType = HomeAdapter.TYPE_NATION;temp.targetUrl = url; return temp
+                    }())
+                    data.add(fun(): Goods {
+                        val temp = Goods(); temp.title = "专题活动"; temp.displayType = HomeAdapter.TYPE_TAG; return temp
+                    }())
+                    data.addAll(if (obj.topicList.size > 3) obj.topicList.subList(0, 3) else obj.topicList)
 
-                data.add(fun ():Goods{val temp = Goods(); temp.title = "精品推荐"; temp.displayType = HomeAdapter.TYPE_TAG; return temp}())
-                data.addAll(obj.list)
-                adapter = HomeAdapter(activity, data)
-                recycler.adapter = adapter
+                    data.add(fun(): Goods {
+                        val temp = Goods(); temp.title = "精品推荐"; temp.displayType = HomeAdapter.TYPE_TAG; return temp
+                    }())
+                    data.addAll(obj.list)
+                    adapter = HomeAdapter(activity, data)
+                    recycler.adapter = adapter
+                }
             }
             else -> return Unit
         }

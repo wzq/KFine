@@ -31,7 +31,7 @@ class LoginActivity : BaseActivity(){
 
         val password = findViewById(R.id.login_password) as EditText
 
-        findViewById(R.id.login_submit).setOnClickListener({
+        findViewById(R.id.login_submit)?.setOnClickListener({
             val params = hashMapOf<String, String>()
             params.put("mobile", phone.text.toString())
             params.put("password", Tools.getEncrypy(password.text.toString().trim())!!)
