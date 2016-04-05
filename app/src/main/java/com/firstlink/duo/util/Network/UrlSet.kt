@@ -12,7 +12,7 @@ enum class UrlSet(vararg s: String) {
     FIND_HOME_DATA("product/find_index_datas.json", "product_json"),
     FIND_GOODS_DETAIL("post/get_groupon_detail.json", VolleyHelper.POST_JSON),
     FIND_NATIONS("tab_page/find_tab_pages.json"),
-    FIND_TOPICS("post/find_groupons_by_topic.json", "topic_json");
+    FIND_TOPICS("product/find_products_by_topic.json", "topic_json");
 
     val url: String
 
