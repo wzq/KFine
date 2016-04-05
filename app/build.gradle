@@ -9,8 +9,8 @@ android {
         applicationId "com.firstlink.test"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 100016
-        versionName "1.1.4"
+        versionCode 100022
+        versionName "1.1.9"
         signingConfig signingConfigs.debug
         buildConfigField "String", "UMENG_CHANNEL", '"1"'
         buildConfigField "String", "HOST", '"http://api.fine3q.com/link-site/api/"'

@@ -48,7 +48,7 @@ class HomeFragment : Fragment() {
 
         VolleyHelper.call().addPost(UrlSet.FIND_NATIONS, null, HomeListData::class.java, {
             obj: HomeListData?, urlSet: UrlSet, result: Original ->
-            val params = hashMapOf(Pair("$startRow", 0), Pair("$pageSize", 20))
+            val params = hashMapOf(Pair("start_row", startRow), Pair("page_size", pageSize))
             url = obj!!.list[0].targetUrl
             VolleyHelper.call().addPost(UrlSet.FIND_HOME_DATA, params, HomeListData::class.java, updater)
         })
