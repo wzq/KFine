@@ -39,7 +39,7 @@ class DetailFragment : Fragment() {
         header?.layoutParams = p
         ViewCompat.setTransitionName(root?.findViewById(R.id.detail_header), "image")
 
-        getData()
+        //getData()
         return root
     }
 
