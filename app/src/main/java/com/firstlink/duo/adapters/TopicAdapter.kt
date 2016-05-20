@@ -32,7 +32,7 @@ class TopicAdapter(val context: Context, val data: List<*>?) : RecyclerView.Adap
         when (holder) {
             is NormalViewHolder -> {
                 if(item is Order){
-                    Picasso.with(context).load(Tools.cdn1(item.firstPic, holder.w, holder.h)).into(holder.picture)
+                    Picasso.with(context).load(item.firstPic).into(holder.picture)
                     holder.title.text = item.title
                     holder.price.text = Tools.formatPrice(item.price.toFloat())
                     holder.source.text = item.source
