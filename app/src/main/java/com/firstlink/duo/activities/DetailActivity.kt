@@ -6,6 +6,8 @@ import android.view.MenuItem
 import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.firstlink.duo.R
 import com.firstlink.duo.fragments.DetailFragment
+import com.firstlink.duo.network.RequestManager
+import rx.schedulers.Schedulers
 
 /**
  * Created by wzq on 15/12/22.
@@ -26,6 +28,12 @@ class DetailActivity : BaseActivity() {
 
         supportFragmentManager.beginTransaction().replace(R.id.detail_container, DetailFragment()).commit()
 
+        RequestManager.productApi
+                .getProductList(RequestManager.getParams("product_json", hashMapOf(Pair("start_row", "0"), Pair("page_size", "20"))))
+                .subscribeOn(Schedulers.io())
+                .subscribe({ it ->
+                    println(it)
+                })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -52,7 +52,6 @@ class HomeFragment : Fragment() {
             url = obj!!.list[0].targetUrl
             VolleyHelper.call().addPost(UrlSet.FIND_HOME_DATA, params, HomeListData::class.java, updater)
         })
-
         return root
     }
 
