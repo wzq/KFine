@@ -1,13 +1,17 @@
 package com.firstlink.duo.network
 
+import android.content.Context
+import android.telephony.TelephonyManager
+import android.text.TextUtils
+import com.firstlink.duo.App
 import com.firstlink.duo.BuildConfig
 import com.firstlink.duo.network.api.ProductApi
-import com.firstlink.duo.util.network.VolleyHelper
-import com.google.gson.Gson
+import com.firstlink.duo.util.PreferenceTools
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
-import retrofit2.converter.scalars.ScalarsConverterFactory
+import retrofit2.converter.gson.GsonConverterFactory
+import java.util.*
 
 /**
  * Created by wzq on 16/5/13.
@@ -17,7 +21,7 @@ object RequestManager {
 
     private val retrofit = Retrofit.Builder()
             .client(OkHttpClient()).baseUrl(BuildConfig.HOST)
-            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
             .build()
 
@@ -25,9 +29,10 @@ object RequestManager {
         retrofit.create(ProductApi::class.java)
     }
 
-    private val requestMap by lazy {
+    val requestMap by lazy {
+        println(1)
         hashMapOf(
-                "d_id" to VolleyHelper.getDeviceId(),
+                "d_id" to getDeviceId(),
                 "ts" to System.currentTimeMillis().toString(),
                 "p" to "a",
                 "ver" to BuildConfig.VERSION_NAME,
@@ -35,14 +40,19 @@ object RequestManager {
         )
     }
 
-
-    fun getParams(key: String, map: MutableMap<String, *>?): MutableMap<String, String>{
-        val temp = hashMapOf<String, String>()
-        temp.putAll(requestMap)
-        if (map != null){
-            temp.put(key, Gson().toJson(map))
+    fun getDeviceId(): String {
+        var did: String? = PreferenceTools.getDevice()
+        if (TextUtils.isEmpty(did)) {
+            try {
+                val telephonyManager = App.instance?.getSystemService(Context.TELEPHONY_SERVICE) as? TelephonyManager
+                did = telephonyManager?.deviceId ?: null
+            } catch (e: Exception) {
+            }
         }
-        println(temp.toString())
-        return temp
+        if (TextUtils.isEmpty(did)) {
+            did = UUID.randomUUID().toString()
+        }
+        PreferenceTools.setDevice(did!!)
+        return did
     }
 }

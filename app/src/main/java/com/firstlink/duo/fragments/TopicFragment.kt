@@ -13,10 +13,13 @@ import com.firstlink.duo.R
 import com.firstlink.duo.adapters.TopicAdapter
 import com.firstlink.duo.model.Topic
 import com.firstlink.duo.model.vo.TopicData
-import com.firstlink.duo.util.network.Original
-import com.firstlink.duo.util.network.UrlSet
-import com.firstlink.duo.util.network.VolleyHelper
+import com.firstlink.duo.network.RequestManager
+import com.firstlink.duo.util.Extensions.buildParams
 import com.firstlink.duo.widget.decorations.GridItemDecoration
+import com.google.gson.Gson
+import rx.Observable
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 import kotlin.properties.Delegates
 
 /**
@@ -43,13 +46,15 @@ class TopicFragment : Fragment(){
 
         }
 
-        val params = hashMapOf(Pair("start_row", 0), Pair("page_size", 20), Pair("id", activity.intent.getIntExtra("tid", 0)))
-        VolleyHelper.call().addPost(UrlSet.FIND_TOPICS, params, TopicData::class.java, {
-            obj: TopicData?, urlSet: UrlSet, original: Original ->
-            activity.title = obj?.topic?.name
-            list.addAll(obj?.list!!)
-            recycler.adapter = TopicAdapter(activity, list)
-        })
+        RequestManager.productApi.getTopic(buildParams("topic_json", hashMapOf(Pair("start_row", 0), Pair("page_size", 20), Pair("id", activity.intent.getIntExtra("tid", 0)))))
+                .flatMap { it-> Observable.just(Gson().fromJson(it.getAsJsonObject("data"), TopicData::class.java)) }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ it ->
+                    activity.title = it?.topic?.name
+                    list.addAll(it?.list!!)
+                    recycler.adapter = TopicAdapter(activity, list)
+                })
         return root
     }
 }

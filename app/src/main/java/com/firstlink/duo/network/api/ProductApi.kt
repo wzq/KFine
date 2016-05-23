@@ -1,9 +1,7 @@
 package com.firstlink.duo.network.api
 
 import com.google.gson.JsonObject
-import retrofit2.http.FieldMap
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.*
 import rx.Observable
 
 /**
@@ -15,4 +13,11 @@ interface ProductApi {
     @FormUrlEncoded
     @POST("product/find_index_datas.json")
     fun getProductList(@FieldMap map: Map<String, String>) : Observable<JsonObject>
+
+    @GET("tab_page/find_tab_pages.json")
+    fun getNations(@QueryMap map: Map<String, String>) : Observable<JsonObject>
+
+    @FormUrlEncoded
+    @POST("product/find_products_by_topic.json")
+    fun getTopic(@FieldMap map: Map<String, String>) : Observable<JsonObject>
 }

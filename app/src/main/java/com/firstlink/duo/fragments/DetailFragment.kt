@@ -13,9 +13,6 @@ import android.widget.TextView
 import com.firstlink.duo.R
 import com.firstlink.duo.model.vo.DetailData
 import com.firstlink.duo.util.Tools
-import com.firstlink.duo.util.network.Original
-import com.firstlink.duo.util.network.UrlSet
-import com.firstlink.duo.util.network.VolleyHelper
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
@@ -43,19 +40,19 @@ class DetailFragment : Fragment() {
         return root
     }
 
-    private fun getData() {
-        val params = hashMapOf<String, String>()
-        params.put("id", "${activity.intent.getIntExtra("id", 0)}")
-        params.put("user_id", "${activity.intent.getIntExtra("uid", 0)}")
-        VolleyHelper.call().addPost(UrlSet.FIND_GOODS_DETAIL, params, DetailData::class.java, updater)
-    }
-
-    private val updater = fun(data: DetailData?, urlSet: UrlSet, original: Original): Unit {
-        if (urlSet == UrlSet.FIND_GOODS_DETAIL && original.code == 1) {
-            loadViews(data!!)
-        }
-
-    }
+//    private fun getData() {
+//        val params = hashMapOf<String, String>()
+//        params.put("id", "${activity.intent.getIntExtra("id", 0)}")
+//        params.put("user_id", "${activity.intent.getIntExtra("uid", 0)}")
+//        VolleyHelper.call().addPost(UrlSet.FIND_GOODS_DETAIL, params, DetailData::class.java, updater)
+//    }
+//
+//    private val updater = fun(data: DetailData?, urlSet: UrlSet, original: Original): Unit {
+//        if (urlSet == UrlSet.FIND_GOODS_DETAIL && original.code == 1) {
+//            loadViews(data!!)
+//        }
+//
+//    }
 
     private fun loadViews(data: DetailData) {
         val picture = (root?.findViewById(R.id.detail_header) as ImageView)
