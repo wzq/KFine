@@ -20,32 +20,26 @@ import com.google.gson.Gson
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
-import kotlin.properties.Delegates
 
 /**
  * Created by wzq on 16/1/6.
  */
 class TopicFragment : Fragment(){
 
-    var recycler: RecyclerView by Delegates.notNull()
+    val list = arrayListOf<Any?>();
+
+    lateinit var adpater : TopicAdapter
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater?.inflate(R.layout.fragment_topic, container, false) as SwipeRefreshLayout
         root.setColorSchemeResources(R.color.accent)
         root.setOnRefreshListener { Handler().postDelayed({ root.isRefreshing = false }, 1000) }
-        val list = arrayListOf<Any?>();
 
-        recycler = root.findViewById(R.id.topic_recycler) as RecyclerView
-        val g = GridLayoutManager(activity, 2)
-        recycler.layoutManager = g
+        val recycler = root.findViewById(R.id.topic_recycler) as RecyclerView
+        recycler.layoutManager = GridLayoutManager(activity, 2).apply { spanSizeLookup = spanRule }
         recycler.addItemDecoration(GridItemDecoration(8f))
-        g.spanSizeLookup = object: GridLayoutManager.SpanSizeLookup(){
-            override fun getSpanSize(position: Int): Int {
-                if(list[position] is Topic) return 2 else return 1
-            }
-
-        }
-
+        adpater = TopicAdapter(activity, list)
+        recycler.adapter = adpater
         RequestManager.productApi.getTopic(buildParams("topic_json", hashMapOf(Pair("start_row", 0), Pair("page_size", 20), Pair("id", activity.intent.getIntExtra("tid", 0)))))
                 .flatMap { it-> Observable.just(Gson().fromJson(it.getAsJsonObject("data"), TopicData::class.java)) }
                 .subscribeOn(Schedulers.io())
@@ -53,8 +47,14 @@ class TopicFragment : Fragment(){
                 .subscribe({ it ->
                     activity.title = it?.topic?.name
                     list.addAll(it?.list!!)
-                    recycler.adapter = TopicAdapter(activity, list)
+                    adpater.notifyDataSetChanged()
                 })
         return root
+    }
+
+    val spanRule = object: GridLayoutManager.SpanSizeLookup(){
+        override fun getSpanSize(position: Int): Int {
+            if(list[position] is Topic) return 2 else return 1
+        }
     }
 }

@@ -30,7 +30,6 @@ object RequestManager {
     }
 
     val requestMap by lazy {
-        println(1)
         hashMapOf(
                 "d_id" to getDeviceId(),
                 "ts" to System.currentTimeMillis().toString(),

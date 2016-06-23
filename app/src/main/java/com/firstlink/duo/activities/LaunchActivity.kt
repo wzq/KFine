@@ -32,4 +32,33 @@ class LaunchActivity : Activity(){
 //            mExplosionField.explode(logo, 2000)
 //        })
     }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+        println("onRestoreInstanceState")
+    }
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        println("onSaveInstanceState")
+    }
+    override fun onStop() {
+        super.onStop()
+        println("onStop")
+    }
+    override fun onStart() {
+        super.onStart()
+        println("onStart")
+    }
+    override fun onRestart() {
+        super.onRestart()
+        println("onRestart")
+    }
+    override fun onResume() {
+        super.onResume()
+        println("onResume")
+    }
+    override fun onPause() {
+        super.onPause()
+        println("onPause")
+    }
 }
