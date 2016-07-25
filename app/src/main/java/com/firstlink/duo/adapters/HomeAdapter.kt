@@ -46,8 +46,8 @@ class HomeAdapter(context: Context?, data: List<Any>?) : RecyclerView.Adapter<Re
                 if (item is Goods) {
                     Picasso.with(context).load(Tools.cdn1(item.indexPic, Tools.dp2px(context,100), Tools.dp2px(context,100))).into(holder.picture)
 
-                    holder.title.text = item.title
-                    holder.content.text = item.description
+                    holder.title.text = item.name
+                    holder.content.text = item.title
                     holder.price.text = Tools.formatPrice(item.price.toFloat())
                     holder.priceX.text = Tools.formatPrice(item.refer_price.toFloat())
                     holder.source.text = item.source

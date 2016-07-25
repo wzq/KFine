@@ -1,5 +1,7 @@
 package com.firstlink.duo.model;
 
+import android.text.TextUtils;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -8,6 +10,16 @@ import com.google.gson.annotations.SerializedName;
 public class Goods {
 
     private int displayType;
+
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     @SerializedName("first_pic")
     private String first_pic;
@@ -214,6 +226,8 @@ public class Goods {
     }
 
     public String getDescription() {
+        if (TextUtils.isEmpty(description))
+            return description;
         return description.replaceAll("\\r|\\n", "");
     }
 

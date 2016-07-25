@@ -23,7 +23,7 @@ class WebActivity : BaseActivity(){
         val progress = findViewById(R.id.web_progress) as ProgressBar
 
         progress.max = 100
-        webView.settings.javaScriptEnabled = true
+        //webView.settings.javaScriptEnabled = true
         webView.settings.javaScriptCanOpenWindowsAutomatically = true
 
         webView.setWebViewClient(object : WebViewClient(){
