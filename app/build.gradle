@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    buildToolsVersion "24.0.1"
 
     defaultConfig {
         applicationId "com.firstlink.test"
@@ -21,7 +21,7 @@ android {
         debug {
             keyAlias 'firstlink'
             keyPassword '123456'
-            storeFile file('/Users/wzq/Documents/git/KFine/fine.jks')
+            storeFile file('../fine.jks')
             storePassword '123456'
         }
     }
@@ -47,11 +47,11 @@ dependencies {
     compile "com.android.support:palette-v7:$SUPPORT_VERSION"
     compile "org.jetbrains.kotlin:kotlin-stdlib:$KOTLIN_VERSION"
 
-    compile 'com.squareup.okhttp3:okhttp:3.2.0'
-    compile 'com.squareup.retrofit2:retrofit:2.0.2'
-    compile 'com.squareup.retrofit2:converter-gson:2.0.2'
-//    compile 'com.squareup.retrofit2:converter-scalars:2.0.2'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+//    compile 'com.squareup.retrofit2:converter-scalars:2.1.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     compile 'io.reactivex:rxandroid:1.2.0'
     compile 'io.reactivex:rxjava:1.1.5'
 
@@ -61,5 +61,5 @@ dependencies {
     compile 'com.balysv:material-ripple:1.0.2'
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     compile 'de.hdodenhof:circleimageview:2.0.0'
-    compile 'com.lapism:searchview:2.2'
+    compile 'com.lapism:searchview:3.4.1'
 }

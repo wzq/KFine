@@ -17,11 +17,10 @@ import com.firstlink.duo.R
 import com.firstlink.duo.fragments.HomeFragment
 import com.firstlink.duo.util.PreferenceTools
 import com.firstlink.duo.util.Tools
-import com.lapism.searchview.adapter.SearchAdapter
-import com.lapism.searchview.adapter.SearchItem
-import com.lapism.searchview.history.SearchHistoryTable
-import com.lapism.searchview.view.SearchCodes
-import com.lapism.searchview.view.SearchView
+import com.lapism.searchview.SearchHistoryTable
+import com.lapism.searchview.SearchView
+import com.lapism.searchview.SearchAdapter
+import com.lapism.searchview.SearchItem
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlin.properties.Delegates
@@ -41,9 +40,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         setContentView(R.layout.activity_main)
         searchView = findViewById(R.id.search_view) as SearchView
         searchView.setOnQueryTextListener(searchListener)
-        val searchAdapter = SearchAdapter(this, arrayListOf<SearchItem>(), historyList, SearchCodes.THEME_LIGHT)
+        val searchAdapter = SearchAdapter(this, historyList)
         searchAdapter.setOnItemClickListener { view, position ->
-            searchView.hide(false)
+            searchView.close(false)
             searchHistory.addItem(SearchItem((view.findViewById(R.id.textView_item_text) as TextView).text))
             println("p-$position")
         }
@@ -83,7 +82,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         override fun onQueryTextChange(newText: String?): Boolean { return false }
 
         override fun onQueryTextSubmit(query: String?): Boolean {
-            searchView.hide(false)
+            searchView.close(false)
             searchHistory.addItem(SearchItem(query))
             println(query)
             return false
@@ -120,7 +119,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             R.id.action_search ->{
                 historyList.clear()
                 historyList.addAll(searchHistory.allItems)
-                searchView.show(true)
+                searchView.open(true)
             }
             R.id.action_message -> { println("message") }
         }
