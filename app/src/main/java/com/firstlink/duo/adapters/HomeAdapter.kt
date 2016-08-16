@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.firstlink.duo.BuildConfig
 import com.firstlink.duo.R
 import com.firstlink.duo.activities.BaseActivity
@@ -19,6 +20,7 @@ import com.firstlink.duo.activities.DetailActivity
 import com.firstlink.duo.activities.TopicActivity
 import com.firstlink.duo.activities.WebActivity
 import com.firstlink.duo.model.Goods
+import com.firstlink.duo.model.IndexActivity
 import com.firstlink.duo.util.Tools
 import com.squareup.picasso.Picasso
 
@@ -37,14 +39,20 @@ class HomeAdapter(context: Context?, data: List<Any>?) : RecyclerView.Adapter<Re
         val TYPE_TOPIC = 1
         val TYPE_NATION = 2
         val TYPE_TAG = 3
+        val TYPE_ACTIVITY = 4
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         val item = data?.get(position)
         when (holder) {
+            is ActivityViewHolder -> {
+                 if (item is IndexActivity) {
+                     Glide.with(context).load(item.picUrl).into(holder.image)
+                 }
+            }
             is NormalViewHolder -> {
                 if (item is Goods) {
-                    Picasso.with(context).load(Tools.cdn1(item.indexPic, Tools.dp2px(context,100), Tools.dp2px(context,100))).into(holder.picture)
+                    Glide.with(context).load(Tools.cdn1(item.indexPic, Tools.dp2px(context,100), Tools.dp2px(context,100))).into(holder.picture)
 
                     holder.title.text = item.name
                     holder.content.text = item.title
@@ -62,7 +70,7 @@ class HomeAdapter(context: Context?, data: List<Any>?) : RecyclerView.Adapter<Re
             }
             is TopicViewHolder -> {
                 if (item is Goods) {
-                    Picasso.with(context).load(Tools.cdn1(item.picUrl, holder.w, holder.h)).into(holder.picture)
+                    Glide.with(context).load(Tools.cdn1(item.picUrl, holder.w, holder.h)).into(holder.picture)
                     holder.picture.setOnClickListener({ context.startActivity(Intent(context, TopicActivity::class.java).putExtra("tid", item.id)) })
                 }
             }
@@ -95,6 +103,7 @@ class HomeAdapter(context: Context?, data: List<Any>?) : RecyclerView.Adapter<Re
             TYPE_TOPIC -> return TopicViewHolder(LayoutInflater.from(parent?.context).inflate(R.layout.item_home_topic, parent, false))
             TYPE_NATION -> return NationViewHolder(LayoutInflater.from(parent?.context).inflate(R.layout.item_home_nation, parent, false))
             TYPE_TAG -> return TagViewHolder(LayoutInflater.from(parent?.context).inflate(R.layout.item_home_tag, parent, false))
+            TYPE_ACTIVITY -> return ActivityViewHolder(LayoutInflater.from(parent?.context).inflate(R.layout.item_home_activity, parent, false))
             else -> return null
         }
 
@@ -165,5 +174,9 @@ class HomeAdapter(context: Context?, data: List<Any>?) : RecyclerView.Adapter<Re
     inner class TagViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val title = itemView.findViewById(R.id.home_tag_title) as TextView
         val more = itemView.findViewById(R.id.home_tag_more) as TextView
+    }
+
+    inner class ActivityViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val image = itemView.findViewById(R.id.home_activity_bg) as ImageView
     }
 }

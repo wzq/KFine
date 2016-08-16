@@ -26,7 +26,7 @@ import rx.schedulers.Schedulers
  */
 class TopicFragment : Fragment(){
 
-    val list = arrayListOf<Any?>();
+    val list = arrayListOf<Any?>()
 
     lateinit var adpater : TopicAdapter
 

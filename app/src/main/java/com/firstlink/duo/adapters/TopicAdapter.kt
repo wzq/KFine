@@ -11,12 +11,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.firstlink.duo.R
 import com.firstlink.duo.activities.DetailActivity
 import com.firstlink.duo.model.Order
 import com.firstlink.duo.model.Topic
 import com.firstlink.duo.util.Tools
-import com.squareup.picasso.Picasso
 
 /**
  * Created by wzq on 16/1/8.
@@ -32,7 +32,7 @@ class TopicAdapter(val context: Context, val data: List<*>?) : RecyclerView.Adap
         when (holder) {
             is NormalViewHolder -> {
                 if(item is Order){
-                    Picasso.with(context).load(item.firstPic).into(holder.picture)
+                    Glide.with(context).load(item.firstPic).into(holder.picture)
                     holder.title.text = item.title
                     holder.price.text = Tools.formatPrice(item.price.toFloat())
                     holder.source.text = item.source
@@ -46,7 +46,7 @@ class TopicAdapter(val context: Context, val data: List<*>?) : RecyclerView.Adap
             }
             is HeadViewHolder -> {
                 if(item is Topic){
-                    Picasso.with(context).load(Tools.cdn1(item.picUrl, holder.w, holder.h)).into(holder.picture)
+                    Glide.with(context).load(Tools.cdn1(item.picUrl, holder.w, holder.h)).into(holder.picture)
                     holder.title.text = item.desc
                 }
             }

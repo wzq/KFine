@@ -1,6 +1,7 @@
 package com.firstlink.duo.model.vo;
 
 import com.firstlink.duo.model.Goods;
+import com.firstlink.duo.model.IndexActivity;
 import com.firstlink.duo.model.Pager;
 import com.google.gson.annotations.SerializedName;
 
@@ -42,6 +43,17 @@ public class HomeListData {
 
     @SerializedName("server_time")
     private String serverTime;
+
+    @SerializedName("activity_list")
+    private List<IndexActivity> activities;
+
+    public List<IndexActivity> getActivities() {
+        return activities;
+    }
+
+    public void setActivities(List<IndexActivity> activities) {
+        this.activities = activities;
+    }
 
     public Pager getPager() {
         return pager;

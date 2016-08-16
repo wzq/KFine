@@ -10,11 +10,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.firstlink.duo.R
 import com.firstlink.duo.model.vo.DetailData
 import com.firstlink.duo.util.Tools
-import com.squareup.picasso.Callback
-import com.squareup.picasso.Picasso
 
 /**
  * Created by wzq on 16/1/20.
@@ -56,11 +55,7 @@ class DetailFragment : Fragment() {
 
     private fun loadViews(data: DetailData) {
         val picture = (root?.findViewById(R.id.detail_header) as ImageView)
-        Picasso.with(activity).load(Tools.cdn1(data.post?.firstPic, pictureParams?.first, pictureParams?.second)).into(picture, object: Callback.EmptyCallback(){
-            override fun onSuccess() {
-                picture.visibility = View.VISIBLE
-            }
-        })
+        Glide.with(activity).load(Tools.cdn1(data.post?.firstPic, pictureParams?.first, pictureParams?.second)).into(picture)
         (root?.findViewById(R.id.detail_title) as TextView).text = data.post.name.trim()
         (root?.findViewById(R.id.detail_limit) as TextView).text = data.post.title.trim()
         (root?.findViewById(R.id.detail_price) as TextView).text = Tools.formatPrice(data.post.postExtData.estimatePrice.toFloat())

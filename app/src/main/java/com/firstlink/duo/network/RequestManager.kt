@@ -26,7 +26,7 @@ object RequestManager {
             .build()
 
     val productApi by lazy {
-        retrofit.create(ProductApi::class.java)
+        retrofit.create(ProductApi::class.java)!!
     }
 
     val requestMap by lazy {

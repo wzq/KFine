@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.firstlink.duo.R
 import com.firstlink.duo.fragments.HomeFragment
 import com.firstlink.duo.util.PreferenceTools
@@ -21,7 +22,6 @@ import com.lapism.searchview.SearchHistoryTable
 import com.lapism.searchview.SearchView
 import com.lapism.searchview.SearchAdapter
 import com.lapism.searchview.SearchItem
-import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlin.properties.Delegates
 
@@ -67,7 +67,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         if(user == null) {
             navigationView.getHeaderView(0).setOnClickListener({ startActivity(Intent(this@MainActivity, LoginActivity::class.java)) })
         }else {
-            Picasso.with(this@MainActivity).load(user.headUrl).into(userPicture)
+            Glide.with(this@MainActivity).load(user.headUrl).into(userPicture)
             userName.text = user.nickName
         }
 
@@ -96,7 +96,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             val user =  PreferenceTools.getUser()
             if(user!=null){
                 runOnUiThread({
-                    Picasso.with(this@MainActivity).load(user.headUrl).into(userPicture)
+                    Glide.with(this@MainActivity).load(user.headUrl).into(userPicture)
                     userName.text = user.nickName
                 })
             }

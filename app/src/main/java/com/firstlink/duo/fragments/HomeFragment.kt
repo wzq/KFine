@@ -33,7 +33,7 @@ class HomeFragment : Fragment() {
 
     lateinit var adapter :HomeAdapter
 
-    var startRow = 0;
+    var startRow = 0
     var pageSize = 20
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
