@@ -31,7 +31,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     var userName by Delegates.notNull<TextView>()
 
     lateinit var searchView: SearchView
-    val searchHistory = SearchHistoryTable(this);
+    val searchHistory = SearchHistoryTable(this)
 
     val historyList = arrayListOf<SearchItem>()
 
@@ -75,7 +75,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         val filter = IntentFilter()
         filter.addAction(Tools.LOGIN_OK)
-        registerReceiver(receiver, filter);
+        registerReceiver(receiver, filter)
     }
 
     val searchListener = object : SearchView.OnQueryTextListener{
@@ -110,7 +110,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main, menu);
+        menuInflater.inflate(R.menu.main, menu)
         return true
     }
 

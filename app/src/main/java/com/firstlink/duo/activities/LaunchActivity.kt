@@ -17,7 +17,7 @@ class LaunchActivity : Activity(){
         setContentView(R.layout.activity_launch)
         val logo = findViewById(R.id.launch_logo) as ImageView
 
-        val mDrawableBuilder = TextDrawable.builder().beginConfig().withBorder(0).endConfig().round();
+        val mDrawableBuilder = TextDrawable.builder().beginConfig().withBorder(0).endConfig().round()
 
         logo.setImageDrawable(mDrawableBuilder.build(getString(R.string.app_name).substring(0, 2), ContextCompat.getColor(this, R.color.accent)))
 //        startActivity(Intent(this@LaunchActivity, MainActivity::class.java))

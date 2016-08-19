@@ -37,10 +37,10 @@ class TopicAdapter(val context: Context, val data: List<*>?) : RecyclerView.Adap
                     holder.price.text = Tools.formatPrice(item.price.toFloat())
                     holder.source.text = item.source
                     holder.ripple.setOnClickListener({
-                        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(context as Activity?, holder.picture, "image");
+                        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(context as Activity?, holder.picture, "image")
                         ActivityCompat.startActivity(context, Intent(context, DetailActivity::class.java)
                                 .putExtra("id", item.id).putExtra("uid", item.userId)
-                                .putExtra("image_url", item.firstPic), options.toBundle());
+                                .putExtra("image_url", item.firstPic), options.toBundle())
                     })
                 }
             }
@@ -79,7 +79,8 @@ class TopicAdapter(val context: Context, val data: List<*>?) : RecyclerView.Adap
         val price = itemView.findViewById(R.id.topic_price) as TextView
         val source = itemView.findViewById(R.id.topic_source) as TextView
         val ripple = itemView.findViewById(R.id.ripple)
-        val w: Int; val h: Int;
+        val w: Int; val h: Int
+
         init {
             val p = picture.layoutParams
             p.width = (context.resources.displayMetrics.widthPixels - Tools.dp2px(context, 24))/2

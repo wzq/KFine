@@ -22,7 +22,6 @@ import com.firstlink.duo.activities.WebActivity
 import com.firstlink.duo.model.Goods
 import com.firstlink.duo.model.IndexActivity
 import com.firstlink.duo.util.Tools
-import com.squareup.picasso.Picasso
 
 /**
  * Created by wzq on 15/12/10.
@@ -46,13 +45,13 @@ class HomeAdapter(context: Context?, data: List<Any>?) : RecyclerView.Adapter<Re
         val item = data?.get(position)
         when (holder) {
             is ActivityViewHolder -> {
-                 if (item is IndexActivity) {
-                     Glide.with(context).load(item.picUrl).into(holder.image)
-                 }
+                if (item is IndexActivity) {
+                    Glide.with(context).load(item.picUrl).into(holder.image)
+                }
             }
             is NormalViewHolder -> {
                 if (item is Goods) {
-                    Glide.with(context).load(Tools.cdn1(item.indexPic, Tools.dp2px(context,100), Tools.dp2px(context,100))).into(holder.picture)
+                    Glide.with(context).load(Tools.cdn1(item.indexPic, Tools.dp2px(context, 100), Tools.dp2px(context, 100))).into(holder.picture)
 
                     holder.title.text = item.name
                     holder.content.text = item.title
@@ -60,10 +59,10 @@ class HomeAdapter(context: Context?, data: List<Any>?) : RecyclerView.Adapter<Re
                     holder.priceX.text = Tools.formatPrice(item.refer_price.toFloat())
                     holder.source.text = item.source
                     holder.ripple.setOnClickListener({
-                        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(context, holder.picture, "image");
+                        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(context, holder.picture, "image")
                         ActivityCompat.startActivity(context, Intent(context, DetailActivity::class.java)
                                 .putExtra("id", item.id).putExtra("uid", item.user_id)
-                                .putExtra("image_url", item.indexPic), options.toBundle());
+                                .putExtra("image_url", item.indexPic), options.toBundle())
                     })
                 }
 
@@ -82,10 +81,10 @@ class HomeAdapter(context: Context?, data: List<Any>?) : RecyclerView.Adapter<Re
                 }
             }
             is TagViewHolder -> {
-                if(item is Goods){
+                if (item is Goods) {
                     holder.title.text = item.title
                     holder.itemView.setOnClickListener({
-                        context.startActivity(Intent(context, WebActivity::class.java).putExtra("web_url", "${ BuildConfig.HTML_HOST}mobile/product/topic_list.html?origin=1"))
+                        context.startActivity(Intent(context, WebActivity::class.java).putExtra("web_url", "${BuildConfig.HTML_HOST}mobile/product/topic_list.html?origin=1"))
                     })
                 }
             }
@@ -110,7 +109,7 @@ class HomeAdapter(context: Context?, data: List<Any>?) : RecyclerView.Adapter<Re
     }
 
     override fun getItemViewType(position: Int): Int {
-        val temp = data?.get(position);
+        val temp = data?.get(position)
         if (temp is Goods) return temp.displayType else return -1
     }
 
@@ -154,8 +153,8 @@ class HomeAdapter(context: Context?, data: List<Any>?) : RecyclerView.Adapter<Re
 
     inner class TopicViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val picture = itemView.findViewById(R.id.topic_pic) as ImageView
-        val w : Int
-        val h : Int
+        val w: Int
+        val h: Int
 
         init {
             val p = picture.layoutParams
@@ -171,7 +170,7 @@ class HomeAdapter(context: Context?, data: List<Any>?) : RecyclerView.Adapter<Re
         val flags = arrayOf(itemView.findViewById(R.id.home_nation_jp), itemView.findViewById(R.id.home_nation_us))
     }
 
-    inner class TagViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    inner class TagViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title = itemView.findViewById(R.id.home_tag_title) as TextView
         val more = itemView.findViewById(R.id.home_tag_more) as TextView
     }

@@ -56,6 +56,7 @@ class HomeFragment : Fragment() {
                     getNations(RequestManager.requestMap),
                     getProductList(buildParams("product_json", hashMapOf("start_row" to startRow, "page_size" to pageSize))),
                     { a, b ->
+                        println(b.toString())
                         val url = Gson().fromJson(a.getAsJsonObject("data"), HomeListData::class.java).list[0].targetUrl
                         with(Gson().fromJson(b.getAsJsonObject("data"), HomeListData::class.java)){
                             topicList?.map { goods -> goods.displayType = HomeAdapter.TYPE_TOPIC }

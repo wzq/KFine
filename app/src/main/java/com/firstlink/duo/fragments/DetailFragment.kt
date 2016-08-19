@@ -62,7 +62,7 @@ class DetailFragment : Fragment() {
         (root?.findViewById(R.id.detail_source) as TextView).text = data.post.postExtData.source
         (root?.findViewById(R.id.detail_desc) as TextView).text = data.post.description
 
-        val beforePrice = root?.findViewById(R.id.detail_price_before) as TextView;
+        val beforePrice = root?.findViewById(R.id.detail_price_before) as TextView
         beforePrice.text = Tools.formatPrice(data.post.postExtData.referPrice.toFloat())
         beforePrice.paint.flags = Paint.STRIKE_THRU_TEXT_FLAG
         beforePrice.paint.isAntiAlias = true
