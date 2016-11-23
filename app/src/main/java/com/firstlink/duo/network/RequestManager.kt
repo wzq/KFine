@@ -44,7 +44,7 @@ object RequestManager {
         if (TextUtils.isEmpty(did)) {
             try {
                 val telephonyManager = App.instance?.getSystemService(Context.TELEPHONY_SERVICE) as? TelephonyManager
-                did = telephonyManager?.deviceId ?: null
+                did = telephonyManager?.deviceId
             } catch (e: Exception) {
             }
         }
